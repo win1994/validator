@@ -18,17 +18,5 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-	
-		<dependency>
-			<groupId>org.fan</groupId>
-			<artifactId>validator.common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.fan</groupId>
-			<artifactId>validator.annotation</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 </project>
