@@ -18,8 +18,8 @@
 	</properties>
 
 	<modules>
-		<module>annotation</module>
+		
 		<module>core</module>
-		<module>common</module>
+		
 	</modules>
 </project>
