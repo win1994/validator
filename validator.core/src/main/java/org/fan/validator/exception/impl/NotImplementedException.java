@@ -7,7 +7,7 @@ import org.fan.validator.exception.ValidatorException;
 
 /**
  * 当注解没有填写对应的handle时，会抛出该异常
- * @author 75445
+ * @author XiaoFan
  *
  */
 public class NotImplementedException extends ValidatorException {

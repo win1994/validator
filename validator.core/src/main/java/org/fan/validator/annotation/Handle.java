@@ -14,7 +14,7 @@ import org.fan.validator.handle.impl.DefaultValidatorHandle;
 
 /**
  * 注解的注解，指定对应注解的handle
- * @author 75445
+ * @author XiaoFan
  *
  */
 @Target(value = { ElementType.ANNOTATION_TYPE })

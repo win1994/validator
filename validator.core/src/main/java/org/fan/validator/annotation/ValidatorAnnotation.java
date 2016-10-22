@@ -10,7 +10,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author 75445
+ * @author XiaoFan
  *
  */
 @Target(value = { ElementType.FIELD })
