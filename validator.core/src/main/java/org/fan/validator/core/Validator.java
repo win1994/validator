@@ -51,7 +51,7 @@ public abstract class Validator {
     {
         Class<?> clazz = bean.getClass();
         // 获取该类所有的字段
-        Field[] fields = clazz.getFields();
+        Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
             
             Object value = null;
@@ -65,16 +65,9 @@ public abstract class Validator {
             }
             
             // 获取该类字段上的注解
-            Annotation[] annotations = field.getAnnotations();
+            Annotation[] annotations = field.getDeclaredAnnotations();
             for (Annotation annotation : annotations) {
-                // 是否是需要处理的注解
-                if (!(annotation instanceof ValidatorAnnotation))
-                {
-                    continue;
-                }
-                
-                ValidatorAnnotation validatorAnnotation = (ValidatorAnnotation) annotation;
-                validateHandle(validatorAnnotation, field.getName(), value, error);
+                validateHandle(annotation, field.getName(), value, error);
             }
         }
     }
@@ -164,6 +157,7 @@ public abstract class Validator {
         StringBuffer buff = new StringBuffer(name);
         // 首字母大写
         buff.setCharAt(0, Character.toUpperCase(buff.charAt(0)));
+        buff.insert(0, "get");
         return buff.toString();
     }
     
@@ -172,9 +166,9 @@ public abstract class Validator {
      * @param fieldName
      * @param error
      */
-    private static void validateHandle(ValidatorAnnotation annotation, String fieldName , Object value, Map<String, String> error)
+    private static void validateHandle(Annotation annotation, String fieldName , Object value, Map<String, String> error)
     {
-        Handle handleAnnotation = annotation.getClass().getAnnotation(Handle.class);
+        Handle handleAnnotation = annotation.annotationType().getDeclaredAnnotation(Handle.class);
         
         if (null == handleAnnotation)
         {
