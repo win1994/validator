@@ -6,13 +6,12 @@ package org.fan.validator.core;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.fan.validator.annotation.Handle;
 import org.fan.validator.annotation.ValidatorAnnotation;
 import org.fan.validator.exception.ValidatorException;
@@ -23,6 +22,8 @@ import org.fan.validator.handle.ValidatorHandle;
  *
  */
 public abstract class Validator {
+    
+    private static final Logger LOGGER = Logger.getLogger(Validator.class);
     
     /**
      * 校验方法
@@ -98,6 +99,7 @@ public abstract class Validator {
         }
         else
         {
+            LOGGER.debug("无法获取到该字段的值，可能是没有 public、private 权限");
             error.put(field.getName(), "无法获取到该字段的值，可能是没有 public、private 权限");
         }
         
@@ -118,6 +120,7 @@ public abstract class Validator {
         }
         catch (Exception e)
         {
+            LOGGER.debug("无法获取到该字段的值", e);
             error.put(field.getName(), "无法获取到该字段的值");
             throw new ValidatorException(e);
         }
@@ -143,6 +146,7 @@ public abstract class Validator {
         }
         catch (Exception e)
         {
+            LOGGER.debug("该字段没有对应的get方法", e);
             error.put(field.getName(), "该字段没有对应的get方法");
             throw new ValidatorException(e);
         }
@@ -171,6 +175,15 @@ public abstract class Validator {
     private static void validateHandle(ValidatorAnnotation annotation, String fieldName , Object value, Map<String, String> error)
     {
         Handle handleAnnotation = annotation.getClass().getAnnotation(Handle.class);
+        
+        if (null == handleAnnotation)
+        {
+            LOGGER.error("没有 Handle 注解:" + 
+                    annotation.getClass().getSimpleName());
+            throw new ValidatorException(annotation.getClass().getSimpleName() + 
+                    ": 该注解没有使用 Handle 注解");
+        }
+        
         ValidatorHandle validatorHandle = getValidatorHandle(handleAnnotation.handle());
         
         // 用来收集错误提示
@@ -199,8 +212,9 @@ public abstract class Validator {
         }
         catch (Exception e)
         {
+            LOGGER.error("校验器内部错误:" + clazz.getSimpleName(), e);
             // 对应的校验器发生异常，终止校验
-            throw new ValidatorException(clazz.getSimpleName(), e);
+            throw new ValidatorException("实例化:" + clazz.getSimpleName() + " 错误", e);
         }
         
         return validatorHandle;
