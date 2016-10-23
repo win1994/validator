@@ -3,9 +3,6 @@
  */
 package org.fan.validator.function.notnull.handle;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
 import org.fan.validator.annotation.ValidatorAnnotation;
 import org.fan.validator.handle.ValidatorHandle;
 
@@ -17,8 +14,8 @@ import org.fan.validator.handle.ValidatorHandle;
 public class ValidatorNotNullHandle implements ValidatorHandle {
 
     @Override
-    public void handle(ValidatorAnnotation annotation, Field field, Map<String, String> error) {
-        
+    public boolean handle(ValidatorAnnotation annotation, Object value, StringBuffer error) {
+        return false;
     }
 
 }

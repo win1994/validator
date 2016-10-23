@@ -9,6 +9,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.fan.validator.handle.impl.DefaultValidatorHandle;
+
 /**
  * @author XiaoFan
  *
@@ -16,6 +18,7 @@ import java.lang.annotation.Target;
 @Target(value = { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Handle(handle = DefaultValidatorHandle.class)
 public @interface ValidatorAnnotation {
     
 }
