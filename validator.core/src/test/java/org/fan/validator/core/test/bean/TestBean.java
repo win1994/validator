@@ -1,12 +1,12 @@
 package org.fan.validator.core.test.bean;
 
-import org.fan.validator.core.test.annotation.TestAnnotation;
+import org.fan.validator.annotation.ValidatorAnnotation;
 
 public class TestBean {
     
-    @TestAnnotation()
+    @ValidatorAnnotation
     private String test;
-
+    
     public String getTest() {
         return test;
     }

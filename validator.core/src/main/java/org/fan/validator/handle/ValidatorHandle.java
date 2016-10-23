@@ -3,7 +3,7 @@
  */
 package org.fan.validator.handle;
 
-import org.fan.validator.annotation.ValidatorAnnotation;
+import java.lang.annotation.Annotation;
 
 /**
  * @author XiaoFan
@@ -18,5 +18,5 @@ public interface ValidatorHandle {
      * @param error 没有通过校验的错误提示
      * @return 是否通过校验
      */
-    public boolean handle(ValidatorAnnotation annotation, Object value, StringBuffer error);
+    public boolean handle(Annotation annotation, Object value, StringBuffer error);
 }

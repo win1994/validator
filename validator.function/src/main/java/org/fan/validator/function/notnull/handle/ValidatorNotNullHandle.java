@@ -3,7 +3,8 @@
  */
 package org.fan.validator.function.notnull.handle;
 
-import org.fan.validator.annotation.ValidatorAnnotation;
+import java.lang.annotation.Annotation;
+
 import org.fan.validator.handle.ValidatorHandle;
 
 /**
@@ -14,7 +15,7 @@ import org.fan.validator.handle.ValidatorHandle;
 public class ValidatorNotNullHandle implements ValidatorHandle {
 
     @Override
-    public boolean handle(ValidatorAnnotation annotation, Object value, StringBuffer error) {
+    public boolean handle(Annotation annotation, Object value, StringBuffer error) {
         return false;
     }
 
