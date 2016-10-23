@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 import org.fan.validator.handle.impl.DefaultValidatorHandle;
 
 /**
+ * 注解样例
  * @author XiaoFan
  *
  */
