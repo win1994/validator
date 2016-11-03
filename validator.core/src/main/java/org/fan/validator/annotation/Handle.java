@@ -14,16 +14,19 @@ import org.fan.validator.handle.impl.DefaultValidatorHandle;
 
 /**
  * 注解的注解，指定对应注解的handle
+ * 
  * @author XiaoFan
  *
  */
 @Target(value = { ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Handle {
-    
+public @interface Handle
+{
+
     /**
      * 指定注解使用该handle处理，必须实现 ValidatorHandle 接口
+     * 
      * @return
      */
     public Class<? extends ValidatorHandle> handle() default DefaultValidatorHandle.class;

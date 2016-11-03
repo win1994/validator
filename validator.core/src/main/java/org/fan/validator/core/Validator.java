@@ -21,39 +21,46 @@ import org.fan.validator.handle.ValidatorHandle;
  * @author XiaoFan
  *
  */
-public abstract class Validator {
-    
+public abstract class Validator
+{
+
     private static final Logger LOGGER = Logger.getLogger(Validator.class);
-    
+
     /**
      * 校验方法
-     * @param bean 要被校验的类
+     * 
+     * @param bean
+     *            要被校验的类
      */
     public static final void validate(Object bean)
     {
         // key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
         Map<String, String> error = new LinkedHashMap<>();
         validate(bean, error);
-        
+
         // 说明有校验错误
         if (error.size() != 0)
         {
             throw new ValidatorException(error);
         }
     }
-    
+
     /**
      * 内部的校验方法
-     * @param bean 要被校验的类
-     * @param error 字段不匹配时的错误提示
+     * 
+     * @param bean
+     *            要被校验的类
+     * @param error
+     *            字段不匹配时的错误提示
      */
-    private static void validate(Object bean , Map<String, String> error)
+    private static void validate(Object bean, Map<String, String> error)
     {
         Class<?> clazz = bean.getClass();
         // 获取该类所有的字段
         Field[] fields = clazz.getDeclaredFields();
-        for (Field field : fields) {
-            
+        for (Field field : fields)
+        {
+
             Object value = null;
             try
             {
@@ -63,24 +70,26 @@ public abstract class Validator {
             {
                 continue;
             }
-            
+
             // 获取该类字段上的注解
             Annotation[] annotations = field.getDeclaredAnnotations();
-            for (Annotation annotation : annotations) {
+            for (Annotation annotation : annotations)
+            {
                 validateHandle(annotation, field.getName(), value, error);
             }
         }
     }
-    
+
     /**
      * 获取字段中的值
+     * 
      * @param field
      */
-    private static Object getFieldValue(Object bean, Field field , Map<String, String> error)
+    private static Object getFieldValue(Object bean, Field field, Map<String, String> error)
     {
         int mod = field.getModifiers();
         Object value = null;
-        
+
         // 判断访问权限
         if (Modifier.isPublic(mod))
         {
@@ -95,16 +104,18 @@ public abstract class Validator {
             LOGGER.debug("无法获取到该字段的值，可能是没有 public、private 权限");
             error.put(field.getName(), "无法获取到该字段的值，可能是没有 public、private 权限");
         }
-        
+
         return value;
     }
-    
-    /** 获取访问类型为public的字段的值
+
+    /**
+     * 获取访问类型为public的字段的值
+     * 
      * @param bean
      * @param field
      * @return
      */
-    private static Object getPublicFieldValue(Object bean, Field field , Map<String, String> error)
+    private static Object getPublicFieldValue(Object bean, Field field, Map<String, String> error)
     {
         Object value = null;
         try
@@ -119,19 +130,20 @@ public abstract class Validator {
         }
         return value;
     }
-    
+
     /**
      * 获取访问类型为private的字段的值
+     * 
      * @param bean
      * @param field
      * @param error
      * @return
      */
-    private static Object getPrivateFieldValue(Object bean, Field field , Map<String, String> error)
+    private static Object getPrivateFieldValue(Object bean, Field field, Map<String, String> error)
     {
         Object value = null;
         String methodName = getMethodNameByField(field.getName());
-         
+
         try
         {
             Method method = bean.getClass().getMethod(methodName);
@@ -143,12 +155,13 @@ public abstract class Validator {
             error.put(field.getName(), "该字段没有对应的get方法");
             throw new ValidatorException(e);
         }
-        
+
         return value;
     }
-    
+
     /**
      * 根据字段名获取对应的get方法
+     * 
      * @param name
      * @return
      */
@@ -160,38 +173,39 @@ public abstract class Validator {
         buff.insert(0, "get");
         return buff.toString();
     }
-    
-    /** 调用对应的handle来进行校验
+
+    /**
+     * 调用对应的handle来进行校验
+     * 
      * @param annotation
      * @param fieldName
      * @param error
      */
-    private static void validateHandle(Annotation annotation, String fieldName , Object value, Map<String, String> error)
+    private static void validateHandle(Annotation annotation, String fieldName, Object value, Map<String, String> error)
     {
         Handle handleAnnotation = annotation.annotationType().getDeclaredAnnotation(Handle.class);
-        
+
         if (null == handleAnnotation)
         {
-            LOGGER.error("没有 Handle 注解:" + 
-                    annotation.getClass().getSimpleName());
-            throw new ValidatorException(annotation.getClass().getSimpleName() + 
-                    ": 该注解没有使用 Handle 注解");
+            LOGGER.error("没有 Handle 注解:" + annotation.getClass().getSimpleName());
+            throw new ValidatorException(annotation.getClass().getSimpleName() + ": 该注解没有使用 Handle 注解");
         }
-        
+
         ValidatorHandle validatorHandle = getValidatorHandle(handleAnnotation.handle());
-        
+
         // 用来收集错误提示
         StringBuffer errorTip = new StringBuffer();
-        
+
         // 校验
         if (!validatorHandle.handle(annotation, value, errorTip))
         {
             error.put(fieldName, errorTip.toString());
         }
     }
-    
+
     /**
      * 获取ValidatorHandle的实例
+     * 
      * @param clazz
      * @return
      */
@@ -199,7 +213,7 @@ public abstract class Validator {
     {
         Constructor<? extends ValidatorHandle> constructor;
         ValidatorHandle validatorHandle = null;
-        try 
+        try
         {
             constructor = clazz.getConstructor(null);
             validatorHandle = constructor.newInstance(null);
@@ -210,7 +224,7 @@ public abstract class Validator {
             // 对应的校验器发生异常，终止校验
             throw new ValidatorException("实例化:" + clazz.getSimpleName() + " 错误", e);
         }
-        
+
         return validatorHandle;
     }
 }

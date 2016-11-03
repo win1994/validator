@@ -21,6 +21,7 @@ import org.fan.validator.function.notnull.handle.ValidatorNotNullHandle;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Handle(handle = ValidatorNotNullHandle.class)
-public @interface ValidatorNotNull {
+public @interface ValidatorNotNull
+{
 
 }

@@ -13,6 +13,7 @@ import org.fan.validator.handle.impl.DefaultValidatorHandle;
 
 /**
  * 注解样例
+ * 
  * @author XiaoFan
  *
  */
@@ -20,6 +21,7 @@ import org.fan.validator.handle.impl.DefaultValidatorHandle;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Handle(handle = DefaultValidatorHandle.class)
-public @interface ValidatorAnnotation {
-    
+public @interface ValidatorAnnotation
+{
+
 }

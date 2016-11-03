@@ -12,17 +12,19 @@ import org.fan.validator.handle.ValidatorHandle;
  * @author XiaoFan
  *
  */
-public class ValidatorNotNullHandle implements ValidatorHandle {
+public class ValidatorNotNullHandle implements ValidatorHandle
+{
 
     @Override
-    public boolean handle(Annotation annotation, Object value, StringBuffer error) {
-        
+    public boolean handle(Annotation annotation, Object value, StringBuffer error)
+    {
+
         if (null == value)
         {
             error.append("该字段要求不能为 Null");
             return false;
         }
-        
+
         return true;
     }
 
