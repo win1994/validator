@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.fan.validator.annotation.Handle;
-import org.fan.validator.annotation.ValidatorAnnotation;
 import org.fan.validator.exception.ValidatorException;
 import org.fan.validator.handle.ValidatorHandle;
 
@@ -195,11 +194,19 @@ public abstract class Validator
 
         // 用来收集错误提示
         StringBuffer errorTip = new StringBuffer();
-
-        // 校验
-        if (!validatorHandle.handle(annotation, value, errorTip))
+        
+        try
         {
-            error.put(fieldName, errorTip.toString());
+         // 校验
+            if (!validatorHandle.handle(annotation, value, errorTip))
+            {
+                error.put(fieldName, errorTip.toString());
+            }    
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("Handle 抛出异常" + validatorHandle.getClass().getSimpleName());
+            throw new ValidatorException(e);
         }
     }
 
@@ -215,8 +222,8 @@ public abstract class Validator
         ValidatorHandle validatorHandle = null;
         try
         {
-            constructor = clazz.getConstructor(null);
-            validatorHandle = constructor.newInstance(null);
+            constructor = clazz.getConstructor();
+            validatorHandle = constructor.newInstance();
         }
         catch (Exception e)
         {
