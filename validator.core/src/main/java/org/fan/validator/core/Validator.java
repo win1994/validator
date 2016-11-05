@@ -205,7 +205,7 @@ public abstract class Validator
         }
         catch (Exception e)
         {
-            LOGGER.error("Handle 抛出异常" + validatorHandle.getClass().getSimpleName());
+            LOGGER.error("Handle 抛出异常" + validatorHandle.getClass().getSimpleName(), e);
             throw new ValidatorException(e);
         }
     }
