@@ -24,7 +24,7 @@ public class ValidatorStrLenHandle implements ValidatorHandle
             return false;
         }
         
-        if (value instanceof String)
+        if (value instanceof String == false)
         {
             error.append("被校验内容不是 String 类型");
             return false;
@@ -45,7 +45,7 @@ public class ValidatorStrLenHandle implements ValidatorHandle
         // -1 为不校验
         if (maxLen != -1 && maxLen < strValue.length())
         {
-            error.append("被校验内容不符合最小长度要求");
+            error.append("被校验内容不符合最大长度要求");
             return false;
         }
         
