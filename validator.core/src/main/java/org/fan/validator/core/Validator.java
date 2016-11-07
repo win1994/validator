@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.fan.validator.annotation.Handle;
-import org.fan.validator.annotation.ValidatorAnnotation;
 import org.fan.validator.exception.ValidatorException;
 import org.fan.validator.handle.ValidatorHandle;
 
@@ -201,8 +200,8 @@ public abstract class Validator {
         ValidatorHandle validatorHandle = null;
         try 
         {
-            constructor = clazz.getConstructor(null);
-            validatorHandle = constructor.newInstance(null);
+            constructor = clazz.getConstructor();
+            validatorHandle = constructor.newInstance();
         }
         catch (Exception e)
         {

@@ -66,7 +66,7 @@ public class ValidatorException extends RuntimeException {
         
         if (null != error)
         {
-            buff.append("\n");
+            buff.append("    ");
             buff.append("Cause: " + getErrorStr());
         }
         
