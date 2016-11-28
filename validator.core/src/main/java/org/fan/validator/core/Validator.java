@@ -55,9 +55,9 @@ public abstract class Validator
     {
         if (null == bean)
         {
-            return ;
+            return;
         }
-        
+
         Class<?> clazz = bean.getClass();
         // 获取该类所有的字段
         Field[] fields = clazz.getDeclaredFields();
@@ -79,14 +79,20 @@ public abstract class Validator
             {
                 validateHandle(annotation, field.getName(), value, error);
             }
-            
+
+            // 防止死循环出现
+            if (value == bean)
+            {
+                continue;
+            }
+
             if (value instanceof Map<?, ?>)
             {
                 // 暂不处理
             }
             else if (value instanceof Collection<?>)
             {
-                validateCollection((Collection<?>)value, error);
+                validateCollection((Collection<?>) value, error);
             }
             else
             {
@@ -95,7 +101,7 @@ public abstract class Validator
             }
         }
     }
-    
+
     /**
      * 校验集合中的字段
      * @param collection
@@ -104,13 +110,13 @@ public abstract class Validator
     private static <T> void validateCollection(Collection<T> collection, Map<String, String> error)
     {
         Iterator<?> iter = collection.iterator();
-        while(iter.hasNext())
+        while (iter.hasNext())
         {
             Object value = iter.next();
             validate(value, error);
         }
     }
-    
+
     /**
      * 获取字段中的值
      * 
@@ -155,7 +161,8 @@ public abstract class Validator
         }
         catch (Exception e)
         {
-            LOGGER.debug("无法获取到该字段的值", e);;
+            LOGGER.debug("无法获取到该字段的值", e);
+            ;
             throw new ValidatorException(e);
         }
         return value;
@@ -210,15 +217,14 @@ public abstract class Validator
      * @param fieldName
      * @param error
      */
-    private static void validateHandle(Annotation annotation, String fieldName, Object value,
-            Map<String, String> error)
+    private static void validateHandle(Annotation annotation, String fieldName, Object value, Map<String, String> error)
     {
         Handle handleAnnotation = annotation.annotationType().getDeclaredAnnotation(Handle.class);
-        
+
         // 没有写 Handle 注解，或者不是校验注解的情况
         if (null == handleAnnotation)
         {
-            return ;
+            return;
         }
 
         ValidatorHandle validatorHandle = getValidatorHandle(handleAnnotation.handle());
