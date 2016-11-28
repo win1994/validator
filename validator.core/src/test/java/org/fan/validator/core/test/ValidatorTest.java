@@ -54,7 +54,7 @@ public class ValidatorTest {
     private boolean catchValidatorException(ValidatorException e)
     {
         Map<String, String> map = e.getError();
-        if ("我没有实现，不要使用我".equals(e.getMessage()))
+        if (map.containsValue("我没有实现，不要使用我"))
         {
             return true;
         }
