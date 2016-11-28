@@ -42,9 +42,19 @@ public class ValidatorException extends RuntimeException
      * 
      * @param error 存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
      */
+    public ValidatorException(Throwable cause, Map<String, String> error)
+    {
+        super(cause);
+        this.error = error;
+    }
+    
+    /**
+     * 
+     * @param error 存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
+     */
     public ValidatorException(Map<String, String> error)
     {
-        this.error = error;
+        this(null, error);
     }
 
     public Map<String, String> getError()
@@ -71,7 +81,7 @@ public class ValidatorException extends RuntimeException
     public String toString()
     {
         StringBuffer buff = new StringBuffer();
-        buff.append("Message: " + this.getMessage());
+        buff.append(this.getMessage());
 
         if (null != error)
         {

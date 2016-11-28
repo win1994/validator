@@ -41,7 +41,7 @@ public abstract class Validator
         // 说明有校验错误
         if (error.size() != 0)
         {
-            throw new ValidatorException(error);
+            throw new ValidatorException(null, error);
         }
     }
 
@@ -53,12 +53,16 @@ public abstract class Validator
      */
     private static void validate(Object bean, Map<String, String> error)
     {
+        if (null == bean)
+        {
+            return ;
+        }
+        
         Class<?> clazz = bean.getClass();
         // 获取该类所有的字段
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields)
         {
-
             Object value = null;
             try
             {
@@ -232,8 +236,9 @@ public abstract class Validator
         }
         catch (Exception e)
         {
+            error.put(fieldName, e.getMessage());
             LOGGER.error("Handle 抛出异常" + validatorHandle.getClass().getSimpleName(), e);
-            throw new ValidatorException(e);
+            throw new ValidatorException(e, error);
         }
     }
 
