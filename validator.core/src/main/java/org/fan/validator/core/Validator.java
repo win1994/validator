@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -75,17 +76,37 @@ public abstract class Validator
                 validateHandle(annotation, field.getName(), value, error);
             }
             
-            
-            
-            if (value instanceof Collection<?>)
+            if (value instanceof Map<?, ?>)
             {
-
+                // 暂不处理
             }
-            // 字段中的字段判断是否需要校验
+            else if (value instanceof Collection<?>)
+            {
+                validateCollection((Collection<?>)value, error);
+            }
+            else
+            {
+                // 字段中的字段判断是否需要校验
+                validate(value, error);
+            }
+        }
+    }
+    
+    /**
+     * 校验集合中的字段
+     * @param collection
+     * @param error
+     */
+    private static <T> void validateCollection(Collection<T> collection, Map<String, String> error)
+    {
+        Iterator<?> iter = collection.iterator();
+        while(iter.hasNext())
+        {
+            Object value = iter.next();
             validate(value, error);
         }
     }
-
+    
     /**
      * 获取字段中的值
      * 
