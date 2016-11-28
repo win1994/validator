@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.fan.validator.annotation.Handle;
@@ -88,7 +89,7 @@ public abstract class Validator
 
             if (value instanceof Map<?, ?>)
             {
-                // 暂不处理
+                validateMap((Map<?, ?>)value, error);
             }
             else if (value instanceof Collection<?>)
             {
@@ -102,6 +103,27 @@ public abstract class Validator
         }
     }
 
+    /**
+     * 校验集合中的字段
+     * @param collection
+     * @param error
+     */
+    private static <K, V> void validateMap(Map<K, V> map, Map<String, String> error)
+    {
+        Set<K> keys = map.keySet();
+        Iterator<K> iter = keys.iterator();
+        while (iter.hasNext())
+        {
+            // 校验key
+            Object key = iter.next();
+            validate(key, error);
+            
+            // 校验value
+            Object value = map.get(key);
+            validate(value, error);
+        }
+    }
+    
     /**
      * 校验集合中的字段
      * @param collection
