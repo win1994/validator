@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -28,8 +29,7 @@ public abstract class Validator
     /**
      * 校验方法
      * 
-     * @param bean
-     *            要被校验的类
+     * @param bean 要被校验的类
      */
     public static final void validate(Object bean)
     {
@@ -47,10 +47,8 @@ public abstract class Validator
     /**
      * 内部的校验方法
      * 
-     * @param bean
-     *            要被校验的类
-     * @param error
-     *            字段不匹配时的错误提示
+     * @param bean 要被校验的类
+     * @param error 字段不匹配时的错误提示
      */
     private static void validate(Object bean, Map<String, String> error)
     {
@@ -76,6 +74,15 @@ public abstract class Validator
             {
                 validateHandle(annotation, field.getName(), value, error);
             }
+            
+            
+            
+            if (value instanceof Collection<?>)
+            {
+
+            }
+            // 字段中的字段判断是否需要校验
+            validate(value, error);
         }
     }
 
@@ -101,7 +108,7 @@ public abstract class Validator
         else
         {
             LOGGER.debug("无法获取到该字段的值，可能是没有 public、private 权限");
-            error.put(field.getName(), "无法获取到该字段的值，可能是没有 public、private 权限");
+            throw new ValidatorException();
         }
 
         return value;
@@ -123,8 +130,7 @@ public abstract class Validator
         }
         catch (Exception e)
         {
-            LOGGER.debug("无法获取到该字段的值", e);
-            error.put(field.getName(), "无法获取到该字段的值");
+            LOGGER.debug("无法获取到该字段的值", e);;
             throw new ValidatorException(e);
         }
         return value;
@@ -151,7 +157,6 @@ public abstract class Validator
         catch (Exception e)
         {
             LOGGER.debug("该字段没有对应的get方法", e);
-            error.put(field.getName(), "该字段没有对应的get方法");
             throw new ValidatorException(e);
         }
 
@@ -180,28 +185,29 @@ public abstract class Validator
      * @param fieldName
      * @param error
      */
-    private static void validateHandle(Annotation annotation, String fieldName, Object value, Map<String, String> error)
+    private static void validateHandle(Annotation annotation, String fieldName, Object value,
+            Map<String, String> error)
     {
         Handle handleAnnotation = annotation.annotationType().getDeclaredAnnotation(Handle.class);
-
+        
+        // 没有写 Handle 注解，或者不是校验注解的情况
         if (null == handleAnnotation)
         {
-            LOGGER.error("没有 Handle 注解:" + annotation.getClass().getSimpleName());
-            throw new ValidatorException(annotation.getClass().getSimpleName() + ": 该注解没有使用 Handle 注解");
+            return ;
         }
 
         ValidatorHandle validatorHandle = getValidatorHandle(handleAnnotation.handle());
 
         // 用来收集错误提示
         StringBuffer errorTip = new StringBuffer();
-        
+
         try
         {
-         // 校验
+            // 校验
             if (!validatorHandle.handle(annotation, value, errorTip))
             {
                 error.put(fieldName, errorTip.toString());
-            }    
+            }
         }
         catch (Exception e)
         {
