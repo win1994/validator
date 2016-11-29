@@ -6,8 +6,7 @@
 	<parent>
 		<groupId>org.fan</groupId>
 		<artifactId>validator</artifactId>
-		<version>${project.version}</version>
-		<relativePath>../pom.xml</relativePath>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>validator.core</artifactId>
 	<name>core</name>
