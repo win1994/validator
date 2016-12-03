@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.exception.impl;
 
 import org.fan.validator.exception.ValidatorException;

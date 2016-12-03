@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.function.length.test;
 
 import org.junit.Assert;

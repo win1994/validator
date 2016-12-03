@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.function.notnull.test;
 
 import static org.junit.Assert.fail;

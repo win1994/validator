@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.annotation;
 
 import java.lang.annotation.Documented;

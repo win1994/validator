@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.core;
 
 import java.lang.annotation.Annotation;
@@ -35,11 +32,11 @@ public abstract class Validator
      */
     public static final void validate(Object bean)
     {
-        // key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
+        
         Map<String, String> error = new LinkedHashMap<>();
         validate(bean, error);
 
-        // 说明有校验错误
+        
         if (error.size() != 0)
         {
             throw new ValidatorException(null, error);
@@ -60,7 +57,7 @@ public abstract class Validator
         }
 
         Class<?> clazz = bean.getClass();
-        // 获取该类所有的字段
+        
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields)
         {
@@ -74,14 +71,14 @@ public abstract class Validator
                 continue;
             }
 
-            // 获取该类字段上的注解
+            
             Annotation[] annotations = field.getDeclaredAnnotations();
             for (Annotation annotation : annotations)
             {
                 validateHandle(annotation, field.getName(), value, error);
             }
 
-            // 防止死循环出现
+            
             if (value == bean)
             {
                 continue;
@@ -97,7 +94,7 @@ public abstract class Validator
             }
             else
             {
-                // 字段中的字段判断是否需要校验
+                
                 validate(value, error);
             }
         }
@@ -114,11 +111,11 @@ public abstract class Validator
         Iterator<K> iter = keys.iterator();
         while (iter.hasNext())
         {
-            // 校验key
+            
             Object key = iter.next();
             validate(key, error);
             
-            // 校验value
+            
             Object value = map.get(key);
             validate(value, error);
         }
@@ -149,7 +146,7 @@ public abstract class Validator
         int mod = field.getModifiers();
         Object value = null;
 
-        // 判断访问权限
+        
         if (Modifier.isPublic(mod))
         {
             value = getPublicFieldValue(bean, field, error);
@@ -226,7 +223,7 @@ public abstract class Validator
     private static String getMethodNameByField(String name)
     {
         StringBuffer buff = new StringBuffer(name);
-        // 首字母大写
+        
         buff.setCharAt(0, Character.toUpperCase(buff.charAt(0)));
         buff.insert(0, "get");
         return buff.toString();
@@ -243,7 +240,7 @@ public abstract class Validator
     {
         Handle handleAnnotation = annotation.annotationType().getDeclaredAnnotation(Handle.class);
 
-        // 没有写 Handle 注解，或者不是校验注解的情况
+        
         if (null == handleAnnotation)
         {
             return;
@@ -251,12 +248,12 @@ public abstract class Validator
 
         ValidatorHandle validatorHandle = getValidatorHandle(handleAnnotation.handle());
 
-        // 用来收集错误提示
+        
         StringBuffer errorTip = new StringBuffer();
 
         try
         {
-            // 校验
+            
             if (!validatorHandle.handle(annotation, value, errorTip))
             {
                 error.put(fieldName, errorTip.toString());
@@ -288,7 +285,7 @@ public abstract class Validator
         catch (Exception e)
         {
             LOGGER.error("校验器内部错误:" + clazz.getSimpleName(), e);
-            // 对应的校验器发生异常，终止校验
+            
             throw new ValidatorException("实例化:" + clazz.getSimpleName() + " 错误", e);
         }
 

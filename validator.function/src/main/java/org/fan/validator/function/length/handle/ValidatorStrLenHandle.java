@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.function.length.handle;
 
 import java.lang.annotation.Annotation;
@@ -42,7 +39,7 @@ public class ValidatorStrLenHandle implements ValidatorHandle
             return false;
         }
         
-        // -1 为不校验
+        
         if (maxLen != -1 && maxLen < strValue.length())
         {
             error.append("被校验内容不符合最大长度要求");

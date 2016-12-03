@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.exception;
 
 import java.util.Map;

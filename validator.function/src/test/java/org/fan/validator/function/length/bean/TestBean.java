@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.function.length.bean;
 
 import org.fan.validator.function.length.annotation.ValidatorStrLen;

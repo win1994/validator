@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.fan.validator.core.test.handle;
 
 import java.lang.annotation.Annotation;
