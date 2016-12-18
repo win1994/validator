@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.fan</groupId>
-	<artifactId>validator</artifactId>
+	<artifactId>verify</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>validator</name>
+	<name>verify</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -19,7 +19,7 @@
 	</properties>
 
 	<modules>
-		<module>validator.core</module>
-		<module>validator.function</module>
+		<module>verify.core</module>
+		<module>verify.function</module>
 	</modules>
 </project>
