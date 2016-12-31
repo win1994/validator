@@ -2,6 +2,7 @@ package test.length.test;
 
 import org.fan.verify.core.Verify;
 import org.fan.verify.exception.VerifyException;
+import org.fan.verify.utils.UnitTestUtil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,26 +19,15 @@ public class VerifyStrLenTest
     {
         TestBean bean = new TestBean();
         bean.setName("aw");
-        try
-        {
-            Verify.verify(bean);
-            Assert.fail("不正确的执行顺序。");
-        }
-        catch (VerifyException e)
-        {
-            System.out.println(e);
-        }
+        
+        UnitTestUtil.test(() -> {
+			Verify.verify(bean);
+		}, true);
         
         bean.setName("awa");
-        try
-        {
-            Verify.verify(bean);
-        }
-        catch (VerifyException e)
-        {
-            System.out.println(e);
-            Assert.fail("不正确的执行顺序。");
-        }
+        UnitTestUtil.test(() -> {
+			Verify.verify(bean);
+		}, false);
     }
     
     @Test
@@ -46,25 +36,13 @@ public class VerifyStrLenTest
         TestBean bean = new TestBean();
         bean.setName("12345678901");
         
-        try
-        {
-            Verify.verify(bean);
-            Assert.fail("不正确的执行顺序。");
-        }
-        catch (VerifyException e)
-        {
-            System.out.println(e);
-        }
+        UnitTestUtil.test(() -> {
+			Verify.verify(bean);
+		}, true);
         
         bean.setName("1234567890");
-        try
-        {
-            Verify.verify(bean);
-        }
-        catch (VerifyException e)
-        {
-            System.out.println(e);
-            Assert.fail("不正确的执行顺序。");
-        }
+        UnitTestUtil.test(() -> {
+			Verify.verify(bean);
+		}, false);
     }
 }
