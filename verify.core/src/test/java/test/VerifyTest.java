@@ -1,11 +1,6 @@
 package test;
 
-import static org.junit.Assert.fail;
-
-import java.util.Map;
-
 import org.fan.verify.core.Verify;
-import org.fan.verify.exception.VerifyException;
 import org.fan.verify.utils.UnitTestUtil;
 import org.junit.Test;
 

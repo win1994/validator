@@ -1,9 +1,7 @@
 package test.length.test;
 
 import org.fan.verify.core.Verify;
-import org.fan.verify.exception.VerifyException;
 import org.fan.verify.utils.UnitTestUtil;
-import org.junit.Assert;
 import org.junit.Test;
 
 import test.length.bean.TestBean;
