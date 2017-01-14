@@ -22,7 +22,6 @@ import org.fan.verify.handle.VerifyHandle;
  */
 public abstract class Verify
 {
-
     private static final Logger LOGGER = Logger.getLogger(Verify.class);
 
     /**

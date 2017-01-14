@@ -1,9 +1,8 @@
 package test.notnull.test;
 
-import static org.junit.Assert.fail;
-
 import org.fan.verify.core.Verify;
 import org.fan.verify.exception.VerifyException;
+import org.fan.verify.utils.UnitTestUtil;
 import org.junit.Test;
 
 import test.notnull.bean.TestBean;
@@ -19,18 +18,22 @@ public class VerifyNotNullTest {
     {
         TestBean bean = new TestBean();
         
-        try
-        {
+        UnitTestUtil.test(()-> {
             Verify.verify(bean);
-        }
-        catch (VerifyException e)
-        {
-            e.printStackTrace();
-            if (e.getError().containsKey("name"))
+        }, (e) -> {
+            VerifyException ex = null;
+            if (!(e instanceof VerifyException))
             {
-                return;
+                return false;
             }
-        }
-        fail("Error");
+            
+            ex = (VerifyException)e;
+            if (ex.getError().containsKey("name"))
+            {
+                return true;
+            }
+            
+            return false;
+        });
     }
 }

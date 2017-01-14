@@ -31,3 +31,31 @@ Verify.verify(xxx);
 xxx 处填写之前新建的 Handle 类名
 
 到此一个属于你自己的校验器已经完成啦！
+
+#使用 lambda 完成单元测试
+```java
+UnitTestUtil.test(() -> {
+	Verify.verify(bean);
+}, true);
+```
+
+当需要对抛出的异常进行处理时
+```java
+UnitTestUtil.test(()-> {
+    Verify.verify(bean);
+}, (e) -> {
+    VerifyException ex = null;
+    if (!(e instanceof VerifyException))
+    {
+        return false;
+    }
+    
+    ex = (VerifyException)e;
+    if (ex.getError().containsKey("name"))
+    {
+        return true;
+    }
+    
+    return false;
+});
+```
