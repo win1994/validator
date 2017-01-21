@@ -101,7 +101,7 @@ public abstract class Verify
 
     /**
      * 校验集合中的字段
-     * @param collection
+     * @param map
      * @param error
      */
     private static <K, V> void verifyMap(Map<K, V> map, Map<String, String> error)
@@ -251,7 +251,8 @@ public abstract class Verify
 
         try
         {
-            if (!verifyHandle.handle(annotation, value, errorTip))
+            verifyHandle.initialize(annotation);
+            if (!verifyHandle.handle(value, errorTip))
             {
                 error.put(fieldName, errorTip.toString());
             }

@@ -26,5 +26,5 @@ public @interface Handle
      * 
      * @return
      */
-    public Class<? extends VerifyHandle> handle() default DefaultVerifyHandle.class;
+    Class<? extends VerifyHandle> handle() default DefaultVerifyHandle.class;
 }

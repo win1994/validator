@@ -12,8 +12,16 @@ import test.annotation.TestAnnotation;
  */
 public class TestVerifyHandle implements VerifyHandle {
 
+    private Annotation annotation;
+
     @Override
-    public boolean handle(Annotation annotation, Object value, StringBuffer error) {
+    public void initialize(Annotation annotation)
+    {
+        this.annotation = annotation;
+    }
+
+    @Override
+    public boolean handle(Object value, StringBuffer error) {
         
         Class<?> clazz = annotation.annotationType();
         

@@ -11,11 +11,15 @@ import org.fan.verify.handle.VerifyHandle;
  */
 public class VerifyNullHandle implements VerifyHandle
 {
-
     @Override
-    public boolean handle(Annotation annotation, Object value, StringBuffer error)
+    public void initialize(Annotation annotation)
     {
 
+    }
+
+    @Override
+    public boolean handle(Object value, StringBuffer error)
+    {
         if (null == value)
         {
             error.append("该字段要求不能为 Null");

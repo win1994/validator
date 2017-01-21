@@ -11,9 +11,16 @@ import org.fan.verify.handle.VerifyHandle;
  */
 public class VerifyLenHandle implements VerifyHandle
 {
-    
+    private Annotation annotation;
+
     @Override
-    public boolean handle(Annotation annotation, Object value, StringBuffer error)
+    public void initialize(Annotation annotation)
+    {
+        this.annotation = annotation;
+    }
+
+    @Override
+    public boolean handle(Object value, StringBuffer error)
     {
         if (null == value)
         {
@@ -21,7 +28,7 @@ public class VerifyLenHandle implements VerifyHandle
             return false;
         }
         
-        if (value instanceof String == false)
+        if (!(value instanceof String))
         {
             error.append("被校验内容不是 String 类型");
             return false;
