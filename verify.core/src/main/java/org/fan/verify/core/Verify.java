@@ -355,7 +355,6 @@ public abstract class Verify
     
     /**
      * 当 field 不等于任何一个枚举值，抛出异常
-     * 该方法允许字段值为null，适用于非必填字段校验
      * 
      * @param field 要校验的字段
      * @param enums 枚举值
