@@ -6,14 +6,14 @@ import java.lang.annotation.Annotation;
  * @author XiaoFan
  *
  */
-public interface VerifyHandle
+public interface VerifyHandle<A extends Annotation, T>
 {
     /**
      * 当校验前会首先执行该方法
      *
      * @param annotation 将被处理的注解
      */
-    void initialize(Annotation annotation);
+    void initialize(A annotation);
 
     /**
      * 处理方法
@@ -23,5 +23,5 @@ public interface VerifyHandle
      * @param error 没有通过校验的错误提示
      * @return 是否通过校验
      */
-    boolean handle(Object value, StringBuffer error);
+    boolean handle(T value, StringBuffer error);
 }
