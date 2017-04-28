@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.fan.verify.annotation.Handle;
+import org.fan.verify.annotation.handle.Handle;
 
 import test.handle.TestVerifyHandle;
 
@@ -16,5 +16,5 @@ import test.handle.TestVerifyHandle;
 @Handle(handle = TestVerifyHandle.class)
 public @interface TestAnnotation
 {
-    public String name() default "测试";
+    String name() default "测试";
 }

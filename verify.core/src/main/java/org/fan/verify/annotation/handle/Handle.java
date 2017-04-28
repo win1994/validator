@@ -1,4 +1,4 @@
-package org.fan.verify.annotation;
+package org.fan.verify.annotation.handle;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

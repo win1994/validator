@@ -20,17 +20,15 @@ public class VerifyLenHandle implements VerifyHandle
     }
 
     @Override
-    public boolean handle(Object value, StringBuffer error)
+    public boolean handle(Object value)
     {
         if (null == value)
         {
-            error.append("被校验内容不能为空");
             return false;
         }
         
         if (!(value instanceof String))
         {
-            error.append("被校验内容不是 String 类型");
             return false;
         }
         
@@ -42,14 +40,11 @@ public class VerifyLenHandle implements VerifyHandle
         
         if (minLen > strValue.length())
         {
-            error.append("被校验内容不符合最小长度要求");
             return false;
         }
         
-        
         if (maxLen != -1 && maxLen < strValue.length())
         {
-            error.append("被校验内容不符合最大长度要求");
             return false;
         }
         

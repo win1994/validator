@@ -21,7 +21,7 @@ public class TestVerifyHandle implements VerifyHandle {
     }
 
     @Override
-    public boolean handle(Object value, StringBuffer error) {
+    public boolean handle(Object value) {
         
         Class<?> clazz = annotation.annotationType();
         
@@ -29,7 +29,6 @@ public class TestVerifyHandle implements VerifyHandle {
         {
             TestAnnotation test = (TestAnnotation) annotation;
             System.out.println(test.name());
-            error.append("我认识你，但就是不让你通过");
             return false;
         }
         

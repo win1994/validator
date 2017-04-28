@@ -18,11 +18,10 @@ public class VerifyNullHandle implements VerifyHandle
     }
 
     @Override
-    public boolean handle(Object value, StringBuffer error)
+    public boolean handle(Object value)
     {
         if (null == value)
         {
-            error.append("该字段要求不能为 Null");
             return false;
         }
 

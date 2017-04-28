@@ -20,7 +20,7 @@ public class DefaultVerifyHandle implements VerifyHandle
     }
 
     @Override
-    public boolean handle(Object value, StringBuffer error)
+    public boolean handle(Object value)
     {
         throw new NotImplementedException("我没有实现，不要使用我");
     }

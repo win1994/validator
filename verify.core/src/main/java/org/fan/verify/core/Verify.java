@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.fan.verify.annotation.Handle;
+import org.fan.verify.annotation.handle.Handle;
 import org.fan.verify.exception.VerifyException;
 import org.fan.verify.handle.VerifyHandle;
 
@@ -23,7 +23,7 @@ import org.fan.verify.handle.VerifyHandle;
 public abstract class Verify
 {
     private static final Logger LOGGER = Logger.getLogger(Verify.class);
-
+    
     /**
      * 校验方法
      * 
@@ -236,25 +236,42 @@ public abstract class Verify
      */
     private static void verifyHandle(Annotation annotation, String fieldName, Object value, Map<String, String> error)
     {
+    	// 注解的Class
+    	Class<? extends Annotation> annotationClass = annotation.annotationType();
+    	
         // 获取校验器注解
-        Handle handleAnnotation = annotation.annotationType().getDeclaredAnnotation(Handle.class);
+        Handle handleAnnotation = annotationClass.getDeclaredAnnotation(Handle.class);
         
+        // 如果没有说明不是校验注解
         if (null == handleAnnotation)
         {
             return;
         }
 
+        // 当前字段校验不通过时的提示信息
+        String errorTip = null;
+        
+        try 
+        {
+			Method nameField = annotationClass.getMethod("name");
+			errorTip = (String) nameField.invoke(annotation);
+		}
+        catch (Exception e) 
+        {
+        	LOGGER.error("校验注解没有默认的 name 字段" + annotationClass.getSimpleName(), e);
+            throw new VerifyException("校验注解没有默认的 name 字段", e);
+		} 
+        
         // 获取注解中的handle
         VerifyHandle verifyHandle = getValidatorHandle(handleAnnotation.handle());
-        
-        StringBuffer errorTip = new StringBuffer();
 
         try
         {
+        	// 初始化并校验
             verifyHandle.initialize(annotation);
-            if (!verifyHandle.handle(value, errorTip))
+            if (!verifyHandle.handle(value))
             {
-                error.put(fieldName, errorTip.toString());
+                error.put(fieldName, errorTip);
             }
         }
         catch (Exception e)
@@ -275,6 +292,8 @@ public abstract class Verify
     {
         Constructor<? extends VerifyHandle> constructor;
         VerifyHandle verifyHandle = null;
+        
+        // TODO 暂时没性能要求，不缓存实例对象
         try
         {
             constructor = clazz.getConstructor();
@@ -290,101 +309,4 @@ public abstract class Verify
         return verifyHandle;
     }
     
-    // 提供一些常用的校验方法
-    /**
-     * 当 field 为null时，抛出异常
-     * 
-     * @param field 要校验的字段
-     */
-    public static void verifyNull(Object field)
-    {
-    	if (null == field)
-    	{
-    		throw new VerifyException("参数 field 值为null");
-    	}
-    }
-    
-    /**
-     * 当 field 为null或者空时，抛出异常
-     * 
-     * @param field
-     */
-    public static void verifyEmpty(CharSequence field)
-    {
-    	verifyNull(field);
-    	if (field.length() == 0)
-    	{
-    		throw new VerifyException("参数 field 值为空");
-    	}
-    }
-    
-    /**
-     * 当 field 的长度不在指定范围内，抛出异常
-     * 
-     * @param field 要校验的字段
-     * @param min 最小长度
-     * @param max 最大长度
-     */
-    public static void verifyLength(CharSequence field, int min, int max)
-    {
-    	verifyNull(field);
-    	int length = field.length();
-    	if (length < min || length > max)
-    	{
-    		throw new VerifyException("参数 field 值 长度不合法");
-    	}
-    }
-    
-    /**
-     * 当 field 的长度不在指定范围内，抛出异常
-     * 该方法允许字段值为null，适用于非必填字段校验
-     * 
-     * @param field 要校验的字段
-     * @param min 最小长度
-     * @param max 最大长度
-     */
-    public static void verifyLengthAllowNull(CharSequence field, int min, int max)
-    {
-    	if (null == field)
-    	{
-    		return;
-    	}
-    	
-    	verifyLength(field, min, max);
-    }
-    
-    /**
-     * 当 field 不等于任何一个枚举值，抛出异常
-     * 
-     * @param field 要校验的字段
-     * @param enums 枚举值
-     */
-    public static void verifyEnum(CharSequence field, CharSequence... enums)
-    {
-    	verifyNull(field);
-    	for (CharSequence charSequence : enums) {
-			if (field.equals(charSequence))
-			{
-				return;
-			}
-		}
-    	throw new VerifyException("参数 field 值 枚举校验失败");
-    }
-    
-    /**
-     * 当 field 不等于任何一个枚举值，抛出异常
-     * 该方法允许字段值为null，适用于非必填字段校验
-     * 
-     * @param field 要校验的字段
-     * @param enums 枚举值
-     */
-    public static void verifyEnumAllowNull(CharSequence field, CharSequence... enums)
-    {
-    	if (null == field)
-    	{
-    		return;
-    	}
-    	
-    	verifyEnum(field, enums);
-    }
 }
