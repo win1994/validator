@@ -3,8 +3,8 @@
  */
 package test;
 
-import org.fan.verify.core.Verify;
 import org.fan.verify.utils.UnitTestUtil;
+import org.fan.verify.utils.VerifyUtil;
 import org.junit.Test;
 
 /**
@@ -18,15 +18,15 @@ public class StaticFunctionTest {
 	public void verifyNull()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyNull(null);
+			VerifyUtil.verifyNull(null);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNull(1);
+			VerifyUtil.verifyNull(1);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNull("");
+			VerifyUtil.verifyNull("");
 		}, false);
 	}
 
@@ -34,11 +34,11 @@ public class StaticFunctionTest {
 	public void verifyEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmpty("");
+			VerifyUtil.verifyEmpty("");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmpty("1");
+			VerifyUtil.verifyEmpty("1");
 		}, false);
 	}
 	
@@ -46,19 +46,19 @@ public class StaticFunctionTest {
 	public void verifyLength()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyLength("", 1, 2);
+			VerifyUtil.verifyLength("", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLength("123", 1, 2);
+			VerifyUtil.verifyLength("123", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLength("1", 1, 2);
+			VerifyUtil.verifyLength("1", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLength("12", 1, 2);
+			VerifyUtil.verifyLength("12", 1, 2);
 		}, false);
 	}
 	
@@ -66,23 +66,23 @@ public class StaticFunctionTest {
 	public void verifyLengthAllowNull()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyLengthAllowNull("", 1, 2);
+			VerifyUtil.verifyLengthAllowNull("", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLengthAllowNull("123", 1, 2);
+			VerifyUtil.verifyLengthAllowNull("123", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLengthAllowNull("1", 1, 2);
+			VerifyUtil.verifyLengthAllowNull("1", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLengthAllowNull("12", 1, 2);
+			VerifyUtil.verifyLengthAllowNull("12", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLengthAllowNull(null, 1, 2);
+			VerifyUtil.verifyLengthAllowNull(null, 1, 2);
 		}, false);
 	}
 	
@@ -90,11 +90,11 @@ public class StaticFunctionTest {
 	public void verifyEnum()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnum("1", "2", "3");
+			VerifyUtil.verifyEnum("1", "2", "3");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnum("2", "2", "3");
+			VerifyUtil.verifyEnum("2", "2", "3");
 		}, false);
 	}
 	
@@ -102,15 +102,15 @@ public class StaticFunctionTest {
 	public void verifyEnumAllowNull()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowNull("1", "2", "3");
+			VerifyUtil.verifyEnumAllowNull("1", "2", "3");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowNull("2", "2", "3");
+			VerifyUtil.verifyEnumAllowNull("2", "2", "3");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowNull(null, "2", "3");
+			VerifyUtil.verifyEnumAllowNull(null, "2", "3");
 		}, false);
 	}
 	
