@@ -28,6 +28,11 @@ Verify.verify(xxx);
 @Handle(handle = xxx.class)
 ```
 
+校验注解必须有一个名叫 name 的方法，否则会抛出异常
+```java
+String name() default "没有指定Handle";
+```
+
 xxx 处填写之前新建的 Handle 类名
 
 到此一个属于你自己的校验器已经完成啦！
