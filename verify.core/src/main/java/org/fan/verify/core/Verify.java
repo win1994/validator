@@ -4,11 +4,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.fan.verify.annotation.handle.Handle;
@@ -84,8 +81,9 @@ public abstract class Verify
             {
                 continue;
             }
-
-            // 根据类型选择对应的校验方式
+            
+            // TODO 这里会造成 stackoverflow，暂时不校验类中类
+            /*// 根据类型选择对应的校验方式
             if (value instanceof Map<?, ?>)
             {
                 verifyMap((Map<?, ?>) value, error);
@@ -97,7 +95,7 @@ public abstract class Verify
             else
             {
                 verify(value, error);
-            }
+            }*/
         }
     }
 
@@ -107,7 +105,7 @@ public abstract class Verify
      * @param map
      * @param error
      */
-    private static <K, V> void verifyMap(Map<K, V> map, Map<String, String> error)
+    /*private static <K, V> void verifyMap(Map<K, V> map, Map<String, String> error)
     {
         Set<K> keys = map.keySet();
         Iterator<K> iter = keys.iterator();
@@ -120,7 +118,7 @@ public abstract class Verify
             Object value = map.get(key);
             verify(value, error);
         }
-    }
+    }*/
 
     /**
      * 校验集合中的字段
@@ -128,7 +126,7 @@ public abstract class Verify
      * @param collection
      * @param error
      */
-    private static <T> void validateCollection(Collection<T> collection, Map<String, String> error)
+    /*private static <T> void validateCollection(Collection<T> collection, Map<String, String> error)
     {
         Iterator<?> iter = collection.iterator();
         while (iter.hasNext())
@@ -136,7 +134,7 @@ public abstract class Verify
             Object value = iter.next();
             verify(value, error);
         }
-    }
+    }*/
 
     /**
      * 获取字段中的值
@@ -203,7 +201,7 @@ public abstract class Verify
         }
 
         // 获取注解中的handle
-        VerifyHandle verifyHandle = getValidatorHandle(handleAnnotation.handle());
+        VerifyHandle verifyHandle = getValidatorHandle(handleAnnotation.value());
 
         try
         {
