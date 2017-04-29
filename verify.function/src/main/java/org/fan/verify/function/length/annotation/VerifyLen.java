@@ -17,7 +17,7 @@ import org.fan.verify.function.length.handle.VerifyLenHandle;
 @Target(value = { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Handle(handle = VerifyLenHandle.class)
+@Handle(VerifyLenHandle.class)
 public @interface VerifyLen
 {
     /**

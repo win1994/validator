@@ -18,7 +18,7 @@ import org.fan.verify.handle.impl.DefaultVerifyHandle;
 @Target(value = { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Handle(handle = DefaultVerifyHandle.class)
+@Handle(DefaultVerifyHandle.class)
 public @interface VerifyAnnotation
 {
 	String name() default "没有指定Handle";

@@ -13,7 +13,7 @@ import test.handle.TestVerifyHandle;
 @Target(value = { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Handle(handle = TestVerifyHandle.class)
+@Handle(TestVerifyHandle.class)
 public @interface TestAnnotation
 {
     String name() default "测试";

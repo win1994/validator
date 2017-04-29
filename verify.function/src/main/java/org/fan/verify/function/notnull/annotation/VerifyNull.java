@@ -17,7 +17,7 @@ import org.fan.verify.function.notnull.handle.VerifyNullHandle;
 @Target(value = { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Handle(handle = VerifyNullHandle.class)
+@Handle(VerifyNullHandle.class)
 public @interface VerifyNull
 {
 
