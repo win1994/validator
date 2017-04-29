@@ -23,11 +23,12 @@ import org.fan.verify.handle.VerifyHandle;
 public abstract class Verify
 {
     private static final Logger LOGGER = Logger.getLogger(Verify.class);
-    
+
     /**
      * 校验方法
      * 
-     * @param bean 要被校验的类
+     * @param bean
+     *            要被校验的类
      */
     public static final void verify(Object bean)
     {
@@ -44,8 +45,10 @@ public abstract class Verify
     /**
      * 内部的校验方法
      * 
-     * @param bean 要被校验的类
-     * @param error 字段不匹配时的错误提示
+     * @param bean
+     *            要被校验的类
+     * @param error
+     *            字段不匹配时的错误提示
      */
     private static void verify(Object bean, Map<String, String> error)
     {
@@ -55,7 +58,7 @@ public abstract class Verify
         }
 
         Class<?> clazz = bean.getClass();
-        
+
         // 获取所有的字段
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields)
@@ -76,17 +79,17 @@ public abstract class Verify
             {
                 verifyHandle(annotation, field.getName(), value, error);
             }
-            
+
             // 字段内容为null
             if (value == bean)
             {
                 continue;
             }
-            
+
             // 根据类型选择对应的校验方式
             if (value instanceof Map<?, ?>)
             {
-                verifyMap((Map<?, ?>)value, error);
+                verifyMap((Map<?, ?>) value, error);
             }
             else if (value instanceof Collection<?>)
             {
@@ -101,6 +104,7 @@ public abstract class Verify
 
     /**
      * 校验集合中的字段
+     * 
      * @param map
      * @param error
      */
@@ -110,17 +114,18 @@ public abstract class Verify
         Iterator<K> iter = keys.iterator();
         while (iter.hasNext())
         {
-            
+
             Object key = iter.next();
             verify(key, error);
-            
+
             Object value = map.get(key);
             verify(value, error);
         }
     }
-    
+
     /**
      * 校验集合中的字段
+     * 
      * @param collection
      * @param error
      */
@@ -141,73 +146,24 @@ public abstract class Verify
      */
     private static Object getFieldValue(Object bean, Field field, Map<String, String> error)
     {
-        int mod = field.getModifiers();
         Object value = null;
-
-        // 根据访问权限来获取字段值
-        if (Modifier.isPublic(mod))
-        {
-            value = getPublicFieldValue(bean, field, error);
-        }
-        else if (Modifier.isPrivate(mod))
-        {
-            value = getPrivateFieldValue(bean, field, error);
-        }
-        else
-        {
-            LOGGER.debug("无法获取到该字段的值，可能是没有 public、private 权限");
-            throw new VerifyException();
-        }
-
-        return value;
-    }
-
-    /**
-     * 获取访问类型为public的字段的值
-     * 
-     * @param bean
-     * @param field
-     * @return
-     */
-    private static Object getPublicFieldValue(Object bean, Field field, Map<String, String> error)
-    {
-        Object value = null;
+        
         try
         {
+            // 禁用安全检查
+            field.setAccessible(true);
             value = field.get(bean);
         }
-        catch (Exception e)
+        catch (IllegalAccessException e)
         {
-            LOGGER.debug("无法获取到该字段的值", e);
-            ;
-            throw new VerifyException(e);
+            LOGGER.error("无法获取到该字段的值", e);
+            throw new VerifyException("无法获取到该字段的值", e);
         }
-        return value;
-    }
-
-    /**
-     * 获取访问类型为private的字段的值
-     * 
-     * @param bean
-     * @param field
-     * @param error
-     * @return
-     */
-    private static Object getPrivateFieldValue(Object bean, Field field, Map<String, String> error)
-    {
-        Object value = null;
-        String methodName = getMethodNameByField(field.getName());
-
-        try
+        finally
         {
-            Method method = bean.getClass().getMethod(methodName);
-            value = method.invoke(bean);
-        }
-        catch (Exception e)
-        {
-            LOGGER.debug("该字段没有对应的get方法", e);
-            throw new VerifyException(e);
-        }
+            // 还原
+            field.setAccessible(false);
+        } 
 
         return value;
     }
@@ -221,7 +177,7 @@ public abstract class Verify
     private static String getMethodNameByField(String name)
     {
         StringBuffer buff = new StringBuffer(name);
-        
+
         buff.setCharAt(0, Character.toUpperCase(buff.charAt(0)));
         buff.insert(0, "get");
         return buff.toString();
@@ -236,12 +192,12 @@ public abstract class Verify
      */
     private static void verifyHandle(Annotation annotation, String fieldName, Object value, Map<String, String> error)
     {
-    	// 注解的Class
-    	Class<? extends Annotation> annotationClass = annotation.annotationType();
-    	
+        // 注解的Class
+        Class<? extends Annotation> annotationClass = annotation.annotationType();
+
         // 获取校验器注解
         Handle handleAnnotation = annotationClass.getDeclaredAnnotation(Handle.class);
-        
+
         // 如果没有说明不是校验注解
         if (null == handleAnnotation)
         {
@@ -250,24 +206,24 @@ public abstract class Verify
 
         // 当前字段校验不通过时的提示信息
         String errorTip = null;
-        
-        try 
+
+        try
         {
-			Method nameField = annotationClass.getMethod("name");
-			errorTip = (String) nameField.invoke(annotation);
-		}
-        catch (Exception e) 
+            Method nameField = annotationClass.getMethod("name");
+            errorTip = (String) nameField.invoke(annotation);
+        }
+        catch (Exception e)
         {
-        	LOGGER.error("校验注解没有默认的 name 字段" + annotationClass.getSimpleName(), e);
+            LOGGER.error("校验注解没有默认的 name 字段" + annotationClass.getSimpleName(), e);
             throw new VerifyException("校验注解没有默认的 name 字段", e);
-		} 
-        
+        }
+
         // 获取注解中的handle
         VerifyHandle verifyHandle = getValidatorHandle(handleAnnotation.handle());
 
         try
         {
-        	// 初始化并校验
+            // 初始化并校验
             verifyHandle.initialize(annotation);
             if (!verifyHandle.handle(value))
             {
@@ -292,7 +248,7 @@ public abstract class Verify
     {
         Constructor<? extends VerifyHandle> constructor;
         VerifyHandle verifyHandle = null;
-        
+
         // TODO 暂时没性能要求，不缓存实例对象
         try
         {
@@ -302,11 +258,11 @@ public abstract class Verify
         catch (Exception e)
         {
             LOGGER.error("校验器内部错误:" + clazz.getSimpleName(), e);
-            
+
             throw new VerifyException("实例化:" + clazz.getSimpleName() + " 错误", e);
         }
 
         return verifyHandle;
     }
-    
+
 }
