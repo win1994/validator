@@ -169,21 +169,6 @@ public abstract class Verify
     }
 
     /**
-     * 根据字段名获取对应的get方法
-     * 
-     * @param name
-     * @return
-     */
-    private static String getMethodNameByField(String name)
-    {
-        StringBuffer buff = new StringBuffer(name);
-
-        buff.setCharAt(0, Character.toUpperCase(buff.charAt(0)));
-        buff.insert(0, "get");
-        return buff.toString();
-    }
-
-    /**
      * 调用对应的handle来进行校验
      * 
      * @param annotation
