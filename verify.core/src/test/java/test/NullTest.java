@@ -2,7 +2,6 @@ package test;
 
 import org.fan.verify.core.Verify;
 import org.fan.verify.utils.UnitTestUtil;
-import org.fan.verify.utils.VerifyUtil;
 import org.junit.Test;
 
 import test.bean.NullBean;

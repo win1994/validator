@@ -1,6 +1,7 @@
 package org.fan.verify.exception;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 校验器异常
@@ -99,11 +100,11 @@ public class VerifyException extends RuntimeException
     {
         StringBuffer buff = new StringBuffer();
 
-        for (String key : map.keySet())
+        for (Entry<String, String> entry : map.entrySet())
         {
             buff.append("[ ");
-            buff.append(key + " : ");
-            buff.append(map.get(key));
+            buff.append(entry.getKey() + " : ");
+            buff.append(entry.getValue());
             buff.append(" ]");
         }
 

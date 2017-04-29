@@ -76,11 +76,11 @@ public abstract class Verify
                 verifyHandle(annotation, field.getName(), value, error);
             }
 
-            // 字段内容为null
+            /*// 字段内容为null
             if (value == bean)
             {
                 continue;
-            }
+            }*/
             
             // TODO 这里会造成 stackoverflow，暂时不校验类中类
             /*// 根据类型选择对应的校验方式
