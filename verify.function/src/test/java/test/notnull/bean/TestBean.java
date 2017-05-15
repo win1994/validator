@@ -1,6 +1,6 @@
 package test.notnull.bean;
 
-import org.fan.verify.function.notnull.annotation.VerifyNull;
+import com.github.xiaofan1519.verify.function.notnull.annotation.VerifyNull;
 
 /**
  * @author XiaoFan

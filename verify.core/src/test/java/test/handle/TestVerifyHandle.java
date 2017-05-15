@@ -2,7 +2,7 @@ package test.handle;
 
 import java.lang.annotation.Annotation;
 
-import org.fan.verify.handle.VerifyHandle;
+import com.github.xiaofan1519.verify.handle.VerifyHandle;
 
 import test.annotation.TestAnnotation;
 

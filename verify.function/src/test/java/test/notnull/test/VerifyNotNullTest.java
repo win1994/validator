@@ -1,9 +1,10 @@
 package test.notnull.test;
 
-import org.fan.verify.core.Verify;
-import org.fan.verify.exception.VerifyException;
-import org.fan.verify.utils.UnitTestUtil;
 import org.junit.Test;
+
+import com.github.xiaofan1519.verify.core.Verify;
+import com.github.xiaofan1519.verify.exception.VerifyException;
+import com.github.xiaofan1519.verify.utils.UnitTestUtil;
 
 import test.notnull.bean.TestBean;
 

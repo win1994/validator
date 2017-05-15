@@ -3,9 +3,10 @@
  */
 package test;
 
-import org.fan.verify.utils.UnitTestUtil;
-import org.fan.verify.utils.VerifyUtil;
 import org.junit.Test;
+
+import com.github.xiaofan1519.verify.utils.UnitTestUtil;
+import com.github.xiaofan1519.verify.utils.VerifyUtil;
 
 /**
  * 公用方法单元测试

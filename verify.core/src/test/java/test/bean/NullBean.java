@@ -1,6 +1,6 @@
 package test.bean;
 
-import org.fan.verify.constraints.Null;
+import com.github.xiaofan1519.verify.constraints.Null;
 
 /**
  * @author Fan

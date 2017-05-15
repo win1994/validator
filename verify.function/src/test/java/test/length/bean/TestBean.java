@@ -1,6 +1,6 @@
 package test.length.bean;
 
-import org.fan.verify.function.length.annotation.VerifyLen;
+import com.github.xiaofan1519.verify.function.length.annotation.VerifyLen;
 
 /**
  * @author XiaoFan

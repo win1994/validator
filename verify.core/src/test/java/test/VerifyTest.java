@@ -1,8 +1,9 @@
 package test;
 
-import org.fan.verify.core.Verify;
-import org.fan.verify.utils.UnitTestUtil;
 import org.junit.Test;
+
+import com.github.xiaofan1519.verify.core.Verify;
+import com.github.xiaofan1519.verify.utils.UnitTestUtil;
 
 import test.bean.TestBean;
 import test.bean.TestBean1;

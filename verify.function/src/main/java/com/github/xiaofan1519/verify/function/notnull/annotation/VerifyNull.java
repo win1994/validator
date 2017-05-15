@@ -1,4 +1,4 @@
-package test.annotation;
+package com.github.xiaofan1519.verify.function.notnull.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -7,14 +7,18 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.github.xiaofan1519.verify.annotation.handle.Handle;
+import com.github.xiaofan1519.verify.function.notnull.handle.VerifyNullHandle;
 
-import test.handle.TestVerifyHandle;
-
+/**
+ * 校验空指针注解
+ * @author XiaoFan
+ *
+ */
 @Target(value = { ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Handle(TestVerifyHandle.class)
-public @interface TestAnnotation
+@Handle(VerifyNullHandle.class)
+public @interface VerifyNull
 {
-    String name() default "测试";
+
 }

@@ -1,6 +1,6 @@
 package test.bean;
 
-import org.fan.verify.annotation.VerifyAnnotation;
+import com.github.xiaofan1519.verify.annotation.VerifyAnnotation;
 
 public class TestBean {
     
