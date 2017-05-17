@@ -115,4 +115,31 @@ public class StaticFunctionTest {
 		}, false);
 	}
 	
+	@Test
+	public void verifyEmail()
+	{
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmail("1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmail("xiaofan.com");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmail("@xiaofan.com");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmail("xiaofan@.com");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmail("xiaofanms@outlook.com");
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmail("123@qq.com");
+		}, false);
+	}
 }

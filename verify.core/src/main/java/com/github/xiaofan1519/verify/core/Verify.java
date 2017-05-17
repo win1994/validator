@@ -6,6 +6,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
@@ -343,5 +345,56 @@ public abstract class Verify
     	}
     	
     	verifyEnum(field, enums);
+    }
+    
+    /**
+     * 校验正则表达式
+     * @param field 要校验的字段
+     * @param regEx 正则表达式
+     */
+    public static void verifyRegEx(CharSequence field, String regEx)
+    {
+    	Matcher matcher = null;
+    	try
+    	{
+    		Pattern pattern = Pattern.compile(regEx);
+    		matcher = pattern.matcher(field);
+    	}
+    	catch (RuntimeException e)
+    	{
+    		throw new VerifyException(e);
+    	}
+        
+        if (!matcher.matches())
+        {
+        	throw new VerifyException("正则表达式不匹配");
+        }
+    }
+    
+    /**
+     * 校验邮箱格式
+     * @param field 要校验的字段
+     */
+    public static void verifyEmail(CharSequence field)
+    {
+    	verifyNull(field);
+    	
+    	String regEx = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+    	verifyRegEx(field, regEx);
+    }
+    
+    /**
+     * 校验邮箱格式
+     * 该方法允许字段值为null，适用于非必填字段校验
+     * @param field 要校验的字段
+     */
+    public static void verifyEmailAllowNull(CharSequence field)
+    {
+    	if (null == field)
+    	{
+    		return;
+    	}
+    	
+    	verifyEmail(field);
     }
 }
