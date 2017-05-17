@@ -47,7 +47,7 @@ public abstract class VerifyUtil
      * @param min 最小长度
      * @param max 最大长度
      */
-    public static void verifyLength(CharSequence field, int min, int max)
+    public static void verifyLen(CharSequence field, int min, int max)
     {
     	verifyNull(field);
     	int length = field.length();
@@ -65,14 +65,14 @@ public abstract class VerifyUtil
      * @param min 最小长度
      * @param max 最大长度
      */
-    public static void verifyLengthAllowNull(CharSequence field, int min, int max)
+    public static void verifyLenAllowNull(CharSequence field, int min, int max)
     {
     	if (null == field)
     	{
     		return;
     	}
     	
-    	verifyLength(field, min, max);
+    	verifyLen(field, min, max);
     }
     
     /**
