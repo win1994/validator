@@ -3,8 +3,6 @@
  */
 package com.github.xiaofan1519.verify.utils;
 
-import static org.junit.Assert.*;
-
 import org.apache.log4j.Logger;
 
 import com.github.xiaofan1519.verify.exception.CatchException;
@@ -91,5 +89,16 @@ public class UnitTestUtil
             }
             return;
         }
+    }
+    
+    /**
+     * 
+     * @param message
+     */
+    private static void fail(String message) {
+        if (message == null) {
+            throw new AssertionError();
+        }
+        throw new AssertionError(message);
     }
 }
