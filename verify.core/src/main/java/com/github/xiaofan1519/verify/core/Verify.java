@@ -278,6 +278,20 @@ public abstract class Verify
     }
     
     /**
+     * 当 field 为null或者空时，返回true，否则返回false
+     * 
+     * @param field
+     */
+    private static boolean isEmpty(CharSequence field)
+    {
+    	if (null == field || field.length() == 0)
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /**
      * 当 field 的长度不在指定范围内，抛出异常
      * 
      * @param field 要校验的字段
@@ -296,17 +310,16 @@ public abstract class Verify
     
     /**
      * 当 field 的长度不在指定范围内，抛出异常
-     * 该方法允许字段值为null，适用于非必填字段校验
+     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
      * 
      * @param field 要校验的字段
      * @param min 最小长度
      * @param max 最大长度
      */
-    public static void verifyLenAllowNull(CharSequence field, int min, int max)
+    public static void verifyLenAllowEmpty(CharSequence field, int min, int max)
     {
-    	if (null == field)
-    	{
-    		return;
+    	if (isEmpty(field)) {
+    		return ;
     	}
     	
     	verifyLen(field, min, max);
@@ -332,16 +345,15 @@ public abstract class Verify
     
     /**
      * 当 field 不等于任何一个枚举值，抛出异常
-     * 该方法允许字段值为null，适用于非必填字段校验
+     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
      * 
      * @param field 要校验的字段
      * @param enums 枚举值
      */
-    public static void verifyEnumAllowNull(CharSequence field, CharSequence... enums)
+    public static void verifyEnumAllowEmpty(CharSequence field, CharSequence... enums)
     {
-    	if (null == field)
-    	{
-    		return;
+    	if (isEmpty(field)) {
+    		return ;
     	}
     	
     	verifyEnum(field, enums);
@@ -385,14 +397,13 @@ public abstract class Verify
     
     /**
      * 校验邮箱格式
-     * 该方法允许字段值为null，适用于非必填字段校验
+     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
      * @param field 要校验的字段
      */
-    public static void verifyEmailAllowNull(CharSequence field)
+    public static void verifyEmailAllowEmpty(CharSequence field)
     {
-    	if (null == field)
-    	{
-    		return;
+    	if (isEmpty(field)) {
+    		return ;
     	}
     	
     	verifyEmail(field);

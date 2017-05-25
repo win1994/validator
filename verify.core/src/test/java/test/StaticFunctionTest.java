@@ -64,26 +64,26 @@ public class StaticFunctionTest {
 	}
 	
 	@Test
-	public void verifyLengthAllowNull()
+	public void verifyLenAllowEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowNull("", 1, 2);
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowNull("123", 1, 2);
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowNull("1", 1, 2);
+			Verify.verifyLenAllowEmpty("", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowNull("12", 1, 2);
+			Verify.verifyLenAllowEmpty("123", 1, 2);
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyLenAllowEmpty("1", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowNull(null, 1, 2);
+			Verify.verifyLenAllowEmpty("12", 1, 2);
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyLenAllowEmpty(null, 1, 2);
 		}, false);
 	}
 	
@@ -100,24 +100,32 @@ public class StaticFunctionTest {
 	}
 	
 	@Test
-	public void verifyEnumAllowNull()
+	public void verifyEnumAllowEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowNull("1", "2", "3");
+			Verify.verifyEnumAllowEmpty("1", "2", "3");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowNull("2", "2", "3");
+			Verify.verifyEnumAllowEmpty("2", "2", "3");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowNull(null, "2", "3");
+			Verify.verifyEnumAllowEmpty(null, "2", "3");
 		}, false);
 	}
 	
 	@Test
 	public void verifyEmail()
 	{
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmailAllowEmpty(null);
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyEmailAllowEmpty("");
+		}, false);
+		
 		UnitTestUtil.test(() -> {
 			Verify.verifyEmail("1");
 		}, true);
