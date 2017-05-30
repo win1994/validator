@@ -10,7 +10,7 @@ public interface CatchException
 {
     /**
      * 当发生异常时，交给程序来处理
-     * @param throwable
+     * @param throwable 已捕获的异常
      * @return 是否已处理该异常
      */
     boolean handle(Throwable throwable);
