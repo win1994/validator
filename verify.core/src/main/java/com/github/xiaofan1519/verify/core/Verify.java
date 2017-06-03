@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -407,5 +408,70 @@ public abstract class Verify
     	}
     	
     	verifyEmail(field);
+    }
+    
+    /**
+     * 校验是否是合法的数字（负数，小数）
+     * @param field
+     */
+    public static void verifyNum(CharSequence field)
+    {
+    	verifyNull(field);
+    	
+    	try {
+    		new BigDecimal(field.toString());
+    	}
+    	catch (NumberFormatException e) {
+    		throw new VerifyException("数字非法");
+		}
+    }
+    
+    /**
+     * 校验是否是合法的数字（负数，小数，科学计数）
+     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
+     * @param field
+     */
+    public static void verifyNumAllowEmpty(CharSequence field)
+    {
+    	if (isEmpty(field)) {
+    		return ;
+    	}
+    	
+    	try {
+    		Integer.valueOf(field.toString());
+    	}
+    	catch (NumberFormatException e) {
+    		throw new VerifyException("数字非法");
+		}
+    }
+    
+    /**
+     * 校验是否是整数
+     * @param field
+     */
+    public static void verifyDigits(CharSequence field)
+    {
+    	verifyEmpty(field);
+    	
+    	for (int i = 0; i < field.length(); i++) {
+			if (!Character.isDigit(field.charAt(i))) {
+				throw new VerifyException("非法整数");
+			}
+		}
+    }
+    
+    /**
+     * 校验是否是整数
+     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
+     * @param field
+     */
+    public static void verifyDigitsAllowEmpty(CharSequence field)
+    {
+    	if (isEmpty(field))
+    	{
+    		return ;
+    	}
+    	
+    	verifyDigits(field);
     }
 }

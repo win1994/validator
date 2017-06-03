@@ -150,4 +150,131 @@ public class StaticFunctionTest {
 			Verify.verifyEmail("123@qq.com");
 		}, false);
 	}
+	
+	@Test
+	public void isNum() {
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum(null);
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("a");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("1");
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("-1");
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("1a");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("0x1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("0x1E");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("-0x1E");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("1E1");
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("-1E1");
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("0.a");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNum("1.12");
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNumAllowEmpty(null);
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyNumAllowEmpty("");
+		}, false);
+	}
+	
+	@Test
+	public void isDigits() {
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits(null);
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("a");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("1");
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("-1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("1a");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("0x1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("0x1E");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("-0x1E");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("1E1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("-1E1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("0.a");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigits("1.12");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigitsAllowEmpty(null);
+		}, false);
+		
+		UnitTestUtil.test(() -> {
+			Verify.verifyDigitsAllowEmpty("");
+		}, false);
+	}
 }
