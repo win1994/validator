@@ -18,7 +18,6 @@ public interface VerifyHandle
     /**
      * 处理方法
      * 
-     * @param annotation 将被处理的注解
      * @param value 将被处理的值
      * @return 是否通过校验
      */

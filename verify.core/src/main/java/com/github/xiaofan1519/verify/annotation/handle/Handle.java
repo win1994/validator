@@ -24,7 +24,7 @@ public @interface Handle
     /**
      * 指定注解使用该handle处理，必须实现 ValidatorHandle 接口
      * 
-     * @return
+     * @return 返回被注解的handle
      */
     Class<? extends VerifyHandle> value() default DefaultVerifyHandle.class;
 }

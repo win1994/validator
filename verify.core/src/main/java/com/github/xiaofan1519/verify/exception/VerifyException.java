@@ -37,7 +37,7 @@ public class VerifyException extends RuntimeException
     }
 
     /**
-     * 
+     * @param cause 被捕获的异常
      * @param error 存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
      */
     public VerifyException(Throwable cause, Map<String, String> error)
@@ -68,7 +68,7 @@ public class VerifyException extends RuntimeException
     /**
      * 将Map转换成String
      * 
-     * @return
+     * @return 将错误信息以字符串的形式返回
      */
     public String getErrorStr()
     {

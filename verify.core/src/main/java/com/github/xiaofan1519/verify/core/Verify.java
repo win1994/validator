@@ -267,7 +267,7 @@ public abstract class Verify
     /**
      * 当 field 为null或者空时，抛出异常
      * 
-     * @param field
+     * @param field 被校验的字段
      */
     public static void verifyEmpty(CharSequence field)
     {
@@ -281,7 +281,7 @@ public abstract class Verify
     /**
      * 当 field 为null或者空时，返回true，否则返回false
      * 
-     * @param field
+     * @param field 被校验的字段
      */
     private static boolean isEmpty(CharSequence field)
     {
