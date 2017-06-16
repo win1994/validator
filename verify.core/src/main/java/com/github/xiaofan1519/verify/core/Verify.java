@@ -305,7 +305,7 @@ public abstract class Verify
     	int length = field.length();
     	if (length < min || length > max)
     	{
-    		throw new VerifyException("参数 field 值 长度不合法");
+    		throw new VerifyException("值" + field + "长度不合法");
     	}
     }
     
