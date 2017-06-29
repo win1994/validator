@@ -19,15 +19,15 @@ public class StaticFunctionTest {
 	public void verifyNull()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyNull(null);
+			Verify.isNull(null);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNull(1);
+			Verify.isNull(1);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNull("");
+			Verify.isNull("");
 		}, false);
 	}
 

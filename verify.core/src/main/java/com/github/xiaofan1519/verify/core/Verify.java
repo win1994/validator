@@ -260,12 +260,30 @@ public abstract class Verify
      * 
      * @param field 要校验的字段
      */
-    public static void verifyNull(Object field)
+    public static void isNull(Object field)
     {
-    	if (null == field)
+    	isNull(field, null);
+    }
+    
+    /**
+     * 当 field 为null时，抛出异常
+     * 
+     * @param field 要校验的字段
+     * @param msg 错误提示信息
+     */
+    public static void isNull(Object field, String msg)
+    {
+    	if (null != field)
     	{
-    		throw new VerifyException("参数 field 值为null");
+    		return;
     	}
+    	
+    	if (null == msg) 
+    	{
+    		throw new VerifyException("field is null.");
+    	}
+    	
+    	throw new VerifyException(msg);
     }
     
     /**
@@ -275,7 +293,7 @@ public abstract class Verify
      */
     public static void verifyEmpty(CharSequence field)
     {
-    	verifyNull(field);
+    	isNull(field);
     	if (field.length() == 0)
     	{
     		throw new VerifyException("参数 field 值为空");
@@ -305,7 +323,7 @@ public abstract class Verify
      */
     public static void verifyLen(CharSequence field, int min, int max)
     {
-    	verifyNull(field);
+    	isNull(field);
     	int length = field.length();
     	if (length < min || length > max)
     	{
@@ -338,7 +356,7 @@ public abstract class Verify
      */
     public static void verifyEnum(CharSequence field, CharSequence... enums)
     {
-    	verifyNull(field);
+    	isNull(field);
     	for (CharSequence charSequence : enums) {
 			if (field.equals(charSequence))
 			{
@@ -394,7 +412,7 @@ public abstract class Verify
      */
     public static void verifyEmail(CharSequence field)
     {
-    	verifyNull(field);
+    	isNull(field);
     	
     	String regEx = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
     	verifyRegEx(field, regEx);
@@ -420,7 +438,7 @@ public abstract class Verify
      */
     public static void verifyNum(CharSequence field)
     {
-    	verifyNull(field);
+    	isNull(field);
     	
     	try {
     		new BigDecimal(field.toString());

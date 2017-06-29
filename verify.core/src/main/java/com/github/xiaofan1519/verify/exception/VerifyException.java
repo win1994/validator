@@ -14,8 +14,16 @@ public class VerifyException extends RuntimeException
 
     private static final long   serialVersionUID = -7521481307777742644L;
 
+    /**
+     * 错误集合
+     */
     private Map<String, String> error;
 
+    /**
+     * 字段值
+     */
+    private String field;
+    
     public VerifyException()
     {
         super();
@@ -26,6 +34,11 @@ public class VerifyException extends RuntimeException
         super(message);
     }
 
+    public VerifyException(String field, String message) {
+    	super(message);
+    	this.field = field;
+    }
+    
     public VerifyException(String message, Throwable cause)
     {
         super(message, cause);
@@ -79,6 +92,11 @@ public class VerifyException extends RuntimeException
     public String toString()
     {
         StringBuffer buff = new StringBuffer();
+        if (null != field) {
+        	buff.append(this.getMessage());
+            buff.append(":");	
+        }
+        
         buff.append(this.getMessage());
 
         if (null != error)
