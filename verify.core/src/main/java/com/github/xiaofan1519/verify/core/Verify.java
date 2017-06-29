@@ -252,6 +252,10 @@ public abstract class Verify
     }
     
     /**
+     * 静态方法校验
+     */
+    
+    /**
      * 当 field 为null时，抛出异常
      * 
      * @param field 要校验的字段
