@@ -20,6 +20,6 @@
 	</properties>
 
 	<modules>
-		<module>verify.core</module>
+		<module>core</module>
 	</modules>
 </project>
