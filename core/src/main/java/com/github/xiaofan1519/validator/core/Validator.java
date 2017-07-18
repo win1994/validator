@@ -10,7 +10,8 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.xiaofan1519.validator.annotation.handle.Handle;
 import com.github.xiaofan1519.validator.exception.ValidatorException;
@@ -22,7 +23,7 @@ import com.github.xiaofan1519.validator.handle.ValidatorHandle;
  */
 public abstract class Validator
 {
-    private static final Logger LOGGER = Logger.getLogger(Validator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Validator.class);
 
     /**
      * 校验方法
@@ -200,18 +201,18 @@ public abstract class Validator
         }
         catch (Exception e)
         {
-            LOGGER.error("校验注解没有默认的 name 字段" + annotationClass.getSimpleName(), e);
+            LOGGER.error("校验注解没有默认的 name 字段 {}", annotationClass.getSimpleName(), e);
             throw new ValidatorException("校验注解没有默认的 name 字段", e);
         }
 
         // 获取注解中的handle
-        ValidatorHandle verifyHandle = getValidatorHandle(handleAnnotation.value());
+        ValidatorHandle validatorHandle = getValidatorHandle(handleAnnotation.value());
 
         try
         {
             // 初始化并校验
-            verifyHandle.initialize(annotation);
-            if (!verifyHandle.handle(value))
+            validatorHandle.initialize(annotation);
+            if (!validatorHandle.handle(value))
             {
                 error.put(fieldName, errorTip);
             }
@@ -219,7 +220,7 @@ public abstract class Validator
         catch (Exception e)
         {
             error.put(fieldName, e.getMessage());
-            LOGGER.error("Handle 抛出异常" + verifyHandle.getClass().getSimpleName(), e);
+            LOGGER.error("Handle 抛出异常 {}", validatorHandle.getClass().getSimpleName(), e);
             throw new ValidatorException(e, error);
         }
     }
@@ -233,22 +234,22 @@ public abstract class Validator
     private static ValidatorHandle getValidatorHandle(Class<? extends ValidatorHandle> clazz)
     {
         Constructor<? extends ValidatorHandle> constructor;
-        ValidatorHandle verifyHandle = null;
+        ValidatorHandle validatorHandle = null;
 
         // TODO 暂时没性能要求，不缓存实例对象
         try
         {
             constructor = clazz.getConstructor();
-            verifyHandle = constructor.newInstance();
+            validatorHandle = constructor.newInstance();
         }
         catch (Exception e)
         {
-            LOGGER.error("校验器内部错误:" + clazz.getSimpleName(), e);
-
+            LOGGER.error("校验器内部错误:{}", clazz.getSimpleName(), e);
+            
             throw new ValidatorException("实例化:" + clazz.getSimpleName() + " 错误", e);
         }
 
-        return verifyHandle;
+        return validatorHandle;
     }
     
     /**
