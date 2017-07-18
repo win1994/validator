@@ -35,11 +35,11 @@ public class StaticFunctionTest {
 	public void verifyEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmpty("");
+			Verify.isEmpty("");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmpty("1");
+			Verify.isEmpty("1");
 		}, false);
 	}
 	

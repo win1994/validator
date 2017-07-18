@@ -280,10 +280,24 @@ public abstract class Verify
     	
     	if (null == msg) 
     	{
-    		throw new VerifyException("field is null.");
+    		throw new VerifyException("字段不能为空");
     	}
     	
     	throw new VerifyException(msg);
+    }
+    
+    /**
+     * 当 field 为null或者空时，返回true
+     * 
+     * @param field 被校验的字段
+     */
+    private static boolean empty(CharSequence field)
+    {
+    	if (null == field || field.length() == 0) {
+    		return true;
+    	}
+    	
+    	return false;
     }
     
     /**
@@ -291,27 +305,28 @@ public abstract class Verify
      * 
      * @param field 被校验的字段
      */
-    public static void verifyEmpty(CharSequence field)
+    public static void isEmpty(CharSequence field)
+    {
+    	isNull(field);
+    	isEmpty(field, null);
+    }
+    
+    /**
+     * 当 field 为null或者空时，抛出异常
+     * 
+     * @param field 被校验的字段
+     * @param msg 错误提示信息
+     */
+    public static void isEmpty(CharSequence field, String msg)
     {
     	isNull(field);
     	if (field.length() == 0)
     	{
-    		throw new VerifyException("参数 field 值为空");
+    		if (null == msg) {    			
+    			throw new VerifyException("字段不能为空");
+    		}
+    		throw new VerifyException(msg);
     	}
-    }
-    
-    /**
-     * 当 field 为null或者空时，返回true，否则返回false
-     * 
-     * @param field 被校验的字段
-     */
-    private static boolean isEmpty(CharSequence field)
-    {
-    	if (null == field || field.length() == 0)
-    	{
-    		return true;
-    	}
-    	return false;
     }
     
     /**
@@ -341,7 +356,7 @@ public abstract class Verify
      */
     public static void verifyLenAllowEmpty(CharSequence field, int min, int max)
     {
-    	if (isEmpty(field)) {
+    	if (empty(field)) {
     		return ;
     	}
     	
@@ -375,7 +390,7 @@ public abstract class Verify
      */
     public static void verifyEnumAllowEmpty(CharSequence field, CharSequence... enums)
     {
-    	if (isEmpty(field)) {
+    	if (empty(field)) {
     		return ;
     	}
     	
@@ -425,7 +440,7 @@ public abstract class Verify
      */
     public static void verifyEmailAllowEmpty(CharSequence field)
     {
-    	if (isEmpty(field)) {
+    	if (empty(field)) {
     		return ;
     	}
     	
@@ -455,7 +470,7 @@ public abstract class Verify
      */
     public static void verifyNumAllowEmpty(CharSequence field)
     {
-    	if (isEmpty(field)) {
+    	if (empty(field)) {
     		return ;
     	}
     	
@@ -473,7 +488,7 @@ public abstract class Verify
      */
     public static void verifyDigits(CharSequence field)
     {
-    	verifyEmpty(field);
+    	isEmpty(field);
     	
     	for (int i = 0; i < field.length(); i++) {
 			if (!Character.isDigit(field.charAt(i))) {
@@ -489,7 +504,7 @@ public abstract class Verify
      */
     public static void verifyDigitsAllowEmpty(CharSequence field)
     {
-    	if (isEmpty(field))
+    	if (empty(field))
     	{
     		return ;
     	}
