@@ -218,63 +218,63 @@ public class StaticFunctionTest {
 	@Test
 	public void isDigits() {
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits(null);
+			Verify.isDigits(null);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("");
+			Verify.isDigits("");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("a");
+			Verify.isDigits("a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("1");
+			Verify.isDigits("1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("-1");
+			Verify.isDigits("-1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("1a");
+			Verify.isDigits("1a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("0x1");
+			Verify.isDigits("0x1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("0x1E");
+			Verify.isDigits("0x1E");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("-0x1E");
+			Verify.isDigits("-0x1E");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("1E1");
+			Verify.isDigits("1E1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("-1E1");
+			Verify.isDigits("-1E1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("0.a");
+			Verify.isDigits("0.a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigits("1.12");
+			Verify.isDigits("1.12");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigitsAllowEmpty(null);
+			Verify.isDigitsAllowEmpty(null);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyDigitsAllowEmpty("");
+			Verify.isDigitsAllowEmpty("");
 		}, false);
 	}
 }

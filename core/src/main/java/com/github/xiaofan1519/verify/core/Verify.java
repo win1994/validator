@@ -269,7 +269,7 @@ public abstract class Verify
      * 当 field 为null时，抛出异常
      * 
      * @param field 要校验的字段
-     * @param msg 错误提示信息
+     * @param msg 自定义错误提示信息
      */
     public static void isNull(Object field, String msg)
     {
@@ -315,7 +315,7 @@ public abstract class Verify
      * 当 field 为null或者空时，抛出异常
      * 
      * @param field 被校验的字段
-     * @param msg 错误提示信息
+     * @param msg 自定义错误提示信息
      */
     public static void isEmpty(CharSequence field, String msg)
     {
@@ -486,13 +486,27 @@ public abstract class Verify
      * 校验是否是整数
      * @param field
      */
-    public static void verifyDigits(CharSequence field)
+    public static void isDigits(CharSequence field)
+    {
+    	isDigits(field, null);
+    }
+    
+    /**
+     * 校验是否是整数
+     * @param field
+     * @param msg 自定义错误提示信息
+     */
+    public static void isDigits(CharSequence field, String msg)
     {
     	isEmpty(field);
     	
     	for (int i = 0; i < field.length(); i++) {
 			if (!Character.isDigit(field.charAt(i))) {
-				throw new VerifyException("非法整数");
+				if (null == msg) {
+					throw new VerifyException("字段值不是一个有效的整数");					
+				}
+				
+				throw new VerifyException(msg);
 			}
 		}
     }
@@ -502,13 +516,13 @@ public abstract class Verify
      * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
      * @param field
      */
-    public static void verifyDigitsAllowEmpty(CharSequence field)
+    public static void isDigitsAllowEmpty(CharSequence field)
     {
     	if (empty(field))
     	{
     		return ;
     	}
     	
-    	verifyDigits(field);
+    	isDigits(field);
     }
 }
