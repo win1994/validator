@@ -1,66 +1,18 @@
 # Verify
 一个简单的 java 参数校验器
 
-#使用样例
-
-在要校验的类的字段上使用注解
-```java
-@VerifyNull
-private String name;
-```
-
-调用 Verify 类
-```java
-Verify.verify(xxx);
-```
-
-校验失败会抛出 VerifyException的，注意捕获！
-
-#如何增加一个校验器
-
-在 function 工程中新建了 Handle 类，并实现 VerifyHandle 接口
-
-新建一个注解，并在该注解上加上以下注解
-```java
-@Target(value = { ElementType.FIELD })
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Handle(handle = xxx.class)
-```
-
-校验注解必须有一个名叫 name 的方法，否则会抛出异常
-```java
-String name() default "没有指定Handle";
-```
-
-xxx 处填写之前新建的 Handle 类名
-
-到此一个属于你自己的校验器已经完成啦！
-
-#使用 lambda 完成单元测试
-```java
-UnitTestUtil.test(() -> {
-	Verify.verify(bean);
-}, true);
-```
-
-当需要对抛出的异常进行处理时
-```java
-UnitTestUtil.test(()-> {
-    Verify.verify(bean);
-}, (e) -> {
-    VerifyException ex = null;
-    if (!(e instanceof VerifyException))
-    {
-        return false;
-    }
-    
-    ex = (VerifyException)e;
-    if (ex.getError().containsKey("name"))
-    {
-        return true;
-    }
-    
-    return false;
-});
-```
+注解|描述|是否实现
+---|---
+@Null|被注释的元素必须为 null|否
+@NotNull|被注释的元素必须不为 null|否
+@AssertTrue|被注释的元素必须为 true|否
+@AssertFalse|被注释的元素必须为 false|否
+@Min(value)|被注释的元素必须是一个数字，其值必须大于等于指定的最小值|否
+@Max(value)|被注释的元素必须是一个数字，其值必须小于等于指定的最大值|否
+@DecimalMin(value)|被注释的元素必须是一个数字，其值必须大于等于指定的最小值|否
+@DecimalMax(value)|被注释的元素必须是一个数字，其值必须小于等于指定的最大值|否
+@Size(max, min)|被注释的元素的大小必须在指定的范围内|否
+@Digits (integer, fraction)|被注释的元素必须是一个数字，其值必须在可接受的范围内|否
+@Past|被注释的元素必须是一个过去的日期|否
+@Future|被注释的元素必须是一个将来的日期|否
+@Pattern(value)|被注释的元素必须符合指定的正则表达式|否
