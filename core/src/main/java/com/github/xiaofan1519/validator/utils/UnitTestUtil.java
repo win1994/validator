@@ -1,11 +1,11 @@
 /**
  * 
  */
-package com.github.xiaofan1519.verify.utils;
+package com.github.xiaofan1519.validator.utils;
 
 import org.apache.log4j.Logger;
 
-import com.github.xiaofan1519.verify.exception.CatchException;
+import com.github.xiaofan1519.validator.exception.CatchException;
 
 /**
  * 单元测试工具类

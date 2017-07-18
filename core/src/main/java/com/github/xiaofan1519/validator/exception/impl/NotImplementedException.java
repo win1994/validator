@@ -1,6 +1,6 @@
-package com.github.xiaofan1519.verify.exception.impl;
+package com.github.xiaofan1519.validator.exception.impl;
 
-import com.github.xiaofan1519.verify.exception.VerifyException;
+import com.github.xiaofan1519.validator.exception.ValidatorException;
 
 /**
  * 当注解没有填写对应的handle时，会抛出该异常
@@ -8,7 +8,7 @@ import com.github.xiaofan1519.verify.exception.VerifyException;
  * @author XiaoFan
  *
  */
-public class NotImplementedException extends VerifyException
+public class NotImplementedException extends ValidatorException
 {
 
     private static final long serialVersionUID = 6759848126156016546L;

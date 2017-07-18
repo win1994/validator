@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.github.xiaofan1519.verify.annotation.handle.Handle;
+import com.github.xiaofan1519.validator.annotation.handle.Handle;
 
 import test.handle.TestVerifyHandle;
 

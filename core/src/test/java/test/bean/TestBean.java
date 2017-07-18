@@ -1,10 +1,10 @@
 package test.bean;
 
-import com.github.xiaofan1519.verify.annotation.VerifyAnnotation;
+import com.github.xiaofan1519.validator.annotation.ValidatorAnnotation;
 
 public class TestBean {
     
-    @VerifyAnnotation
+    @ValidatorAnnotation
     private String test;
     
     public String getTest() {

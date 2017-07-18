@@ -1,4 +1,4 @@
-package com.github.xiaofan1519.verify.exception;
+package com.github.xiaofan1519.validator.exception;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,7 +9,7 @@ import java.util.Map.Entry;
  * @author XiaoFan
  *
  */
-public class VerifyException extends RuntimeException
+public class ValidatorException extends RuntimeException
 {
 
     private static final long   serialVersionUID = -7521481307777742644L;
@@ -24,27 +24,27 @@ public class VerifyException extends RuntimeException
      */
     private String field;
     
-    public VerifyException()
+    public ValidatorException()
     {
         super();
     }
 
-    public VerifyException(String message)
+    public ValidatorException(String message)
     {
         super(message);
     }
 
-    public VerifyException(String field, String message) {
+    public ValidatorException(String field, String message) {
     	super(message);
     	this.field = field;
     }
     
-    public VerifyException(String message, Throwable cause)
+    public ValidatorException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
-    public VerifyException(Throwable cause)
+    public ValidatorException(Throwable cause)
     {
         super(cause);
     }
@@ -53,7 +53,7 @@ public class VerifyException extends RuntimeException
      * @param cause 被捕获的异常
      * @param error 存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
      */
-    public VerifyException(Throwable cause, Map<String, String> error)
+    public ValidatorException(Throwable cause, Map<String, String> error)
     {
         super(cause);
         this.error = error;
@@ -63,7 +63,7 @@ public class VerifyException extends RuntimeException
      * 
      * @param error 存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
      */
-    public VerifyException(Map<String, String> error)
+    public ValidatorException(Map<String, String> error)
     {
         this(null, error);
     }

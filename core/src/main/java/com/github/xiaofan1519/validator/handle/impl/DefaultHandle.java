@@ -1,9 +1,9 @@
-package com.github.xiaofan1519.verify.handle.impl;
+package com.github.xiaofan1519.validator.handle.impl;
 
 import java.lang.annotation.Annotation;
 
-import com.github.xiaofan1519.verify.exception.impl.NotImplementedException;
-import com.github.xiaofan1519.verify.handle.VerifyHandle;
+import com.github.xiaofan1519.validator.exception.impl.NotImplementedException;
+import com.github.xiaofan1519.validator.handle.ValidatorHandle;
 
 /**
  * 注解默认的handle
@@ -11,7 +11,7 @@ import com.github.xiaofan1519.verify.handle.VerifyHandle;
  * @author XiaoFan
  *
  */
-public class DefaultVerifyHandle implements VerifyHandle
+public class DefaultHandle implements ValidatorHandle
 {
     @Override
     public void initialize(Annotation annotation)

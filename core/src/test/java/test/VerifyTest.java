@@ -2,8 +2,8 @@ package test;
 
 import org.junit.Test;
 
-import com.github.xiaofan1519.verify.core.Verify;
-import com.github.xiaofan1519.verify.utils.UnitTestUtil;
+import com.github.xiaofan1519.validator.core.Validator;
+import com.github.xiaofan1519.validator.utils.UnitTestUtil;
 
 import test.bean.TestBean;
 import test.bean.TestBean1;
@@ -18,7 +18,7 @@ public class VerifyTest {
         TestBean bean = new TestBean();
         
         UnitTestUtil.test(() -> {
-			Verify.verify(bean);
+			Validator.verify(bean);
 		}, true);
     }
     
@@ -27,7 +27,7 @@ public class VerifyTest {
         TestBean1 bean = new TestBean1();
         
         UnitTestUtil.test(() -> {
-			Verify.verify(bean);
+			Validator.verify(bean);
 		}, true);
     }
 }

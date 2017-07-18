@@ -1,4 +1,4 @@
-package com.github.xiaofan1519.verify.exception;
+package com.github.xiaofan1519.validator.exception;
 
 /**
  * 异常处理类，供lambda使用

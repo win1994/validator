@@ -2,7 +2,7 @@ package test.handle;
 
 import java.lang.annotation.Annotation;
 
-import com.github.xiaofan1519.verify.handle.VerifyHandle;
+import com.github.xiaofan1519.validator.handle.ValidatorHandle;
 
 import test.annotation.TestAnnotation;
 
@@ -10,7 +10,7 @@ import test.annotation.TestAnnotation;
  * @author XiaoFan
  *
  */
-public class TestVerifyHandle implements VerifyHandle {
+public class TestVerifyHandle implements ValidatorHandle {
 
     private Annotation annotation;
 

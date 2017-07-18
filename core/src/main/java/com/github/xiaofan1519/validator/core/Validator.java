@@ -1,4 +1,4 @@
-package com.github.xiaofan1519.verify.core;
+package com.github.xiaofan1519.validator.core;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -12,17 +12,17 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
-import com.github.xiaofan1519.verify.annotation.handle.Handle;
-import com.github.xiaofan1519.verify.exception.VerifyException;
-import com.github.xiaofan1519.verify.handle.VerifyHandle;
+import com.github.xiaofan1519.validator.annotation.handle.Handle;
+import com.github.xiaofan1519.validator.exception.ValidatorException;
+import com.github.xiaofan1519.validator.handle.ValidatorHandle;
 
 /**
  * @author XiaoFan
  *
  */
-public abstract class Verify
+public abstract class Validator
 {
-    private static final Logger LOGGER = Logger.getLogger(Verify.class);
+    private static final Logger LOGGER = Logger.getLogger(Validator.class);
 
     /**
      * 校验方法
@@ -38,7 +38,7 @@ public abstract class Verify
         // error 不为空
         if (error.size() != 0)
         {
-            throw new VerifyException(null, error);
+            throw new ValidatorException(null, error);
         }
     }
 
@@ -68,7 +68,7 @@ public abstract class Verify
             {
                 value = getFieldValue(bean, field, error);
             }
-            catch (VerifyException e)
+            catch (ValidatorException e)
             {
                 continue;
             }
@@ -158,7 +158,7 @@ public abstract class Verify
         catch (IllegalAccessException e)
         {
             LOGGER.error("无法获取到该字段的值", e);
-            throw new VerifyException("无法获取到该字段的值", e);
+            throw new ValidatorException("无法获取到该字段的值", e);
         }
         finally
         {
@@ -201,11 +201,11 @@ public abstract class Verify
         catch (Exception e)
         {
             LOGGER.error("校验注解没有默认的 name 字段" + annotationClass.getSimpleName(), e);
-            throw new VerifyException("校验注解没有默认的 name 字段", e);
+            throw new ValidatorException("校验注解没有默认的 name 字段", e);
         }
 
         // 获取注解中的handle
-        VerifyHandle verifyHandle = getValidatorHandle(handleAnnotation.value());
+        ValidatorHandle verifyHandle = getValidatorHandle(handleAnnotation.value());
 
         try
         {
@@ -220,7 +220,7 @@ public abstract class Verify
         {
             error.put(fieldName, e.getMessage());
             LOGGER.error("Handle 抛出异常" + verifyHandle.getClass().getSimpleName(), e);
-            throw new VerifyException(e, error);
+            throw new ValidatorException(e, error);
         }
     }
 
@@ -230,10 +230,10 @@ public abstract class Verify
      * @param clazz
      * @return
      */
-    private static VerifyHandle getValidatorHandle(Class<? extends VerifyHandle> clazz)
+    private static ValidatorHandle getValidatorHandle(Class<? extends ValidatorHandle> clazz)
     {
-        Constructor<? extends VerifyHandle> constructor;
-        VerifyHandle verifyHandle = null;
+        Constructor<? extends ValidatorHandle> constructor;
+        ValidatorHandle verifyHandle = null;
 
         // TODO 暂时没性能要求，不缓存实例对象
         try
@@ -245,7 +245,7 @@ public abstract class Verify
         {
             LOGGER.error("校验器内部错误:" + clazz.getSimpleName(), e);
 
-            throw new VerifyException("实例化:" + clazz.getSimpleName() + " 错误", e);
+            throw new ValidatorException("实例化:" + clazz.getSimpleName() + " 错误", e);
         }
 
         return verifyHandle;
@@ -280,10 +280,10 @@ public abstract class Verify
     	
     	if (null == msg) 
     	{
-    		throw new VerifyException("字段不能为空");
+    		throw new ValidatorException("字段不能为空");
     	}
     	
-    	throw new VerifyException(msg);
+    	throw new ValidatorException(msg);
     }
     
     /**
@@ -323,9 +323,9 @@ public abstract class Verify
     	if (field.length() == 0)
     	{
     		if (null == msg) {    			
-    			throw new VerifyException("字段不能为空");
+    			throw new ValidatorException("字段不能为空");
     		}
-    		throw new VerifyException(msg);
+    		throw new ValidatorException(msg);
     	}
     }
     
@@ -342,7 +342,7 @@ public abstract class Verify
     	int length = field.length();
     	if (length < min || length > max)
     	{
-    		throw new VerifyException("值 " + field + " 长度不合法.最小:" + min + "最大:" + max);
+    		throw new ValidatorException("值 " + field + " 长度不合法.最小:" + min + "最大:" + max);
     	}
     }
     
@@ -378,7 +378,7 @@ public abstract class Verify
 				return;
 			}
 		}
-    	throw new VerifyException("参数 field 值 枚举校验失败");
+    	throw new ValidatorException("参数 field 值 枚举校验失败");
     }
     
     /**
@@ -412,12 +412,12 @@ public abstract class Verify
     	}
     	catch (RuntimeException e)
     	{
-    		throw new VerifyException(e);
+    		throw new ValidatorException(e);
     	}
         
         if (!matcher.matches())
         {
-        	throw new VerifyException("正则表达式不匹配");
+        	throw new ValidatorException("正则表达式不匹配");
         }
     }
     
@@ -459,7 +459,7 @@ public abstract class Verify
     		new BigDecimal(field.toString());
     	}
     	catch (NumberFormatException e) {
-    		throw new VerifyException("数字非法");
+    		throw new ValidatorException("数字非法");
 		}
     }
     
@@ -478,7 +478,7 @@ public abstract class Verify
     		Integer.valueOf(field.toString());
     	}
     	catch (NumberFormatException e) {
-    		throw new VerifyException("数字非法");
+    		throw new ValidatorException("数字非法");
 		}
     }
     
@@ -503,10 +503,10 @@ public abstract class Verify
     	for (int i = 0; i < field.length(); i++) {
 			if (!Character.isDigit(field.charAt(i))) {
 				if (null == msg) {
-					throw new VerifyException("字段值不是一个有效的整数");					
+					throw new ValidatorException("字段值不是一个有效的整数");					
 				}
 				
-				throw new VerifyException(msg);
+				throw new ValidatorException(msg);
 			}
 		}
     }

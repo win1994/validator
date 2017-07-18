@@ -1,4 +1,4 @@
-package com.github.xiaofan1519.verify.handle;
+package com.github.xiaofan1519.validator.handle;
 
 import java.lang.annotation.Annotation;
 
@@ -6,7 +6,7 @@ import java.lang.annotation.Annotation;
  * @author XiaoFan
  *
  */
-public interface VerifyHandle
+public interface ValidatorHandle
 {
     /**
      * 当校验前会首先执行该方法

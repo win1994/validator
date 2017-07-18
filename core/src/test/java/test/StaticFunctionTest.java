@@ -5,8 +5,8 @@ package test;
 
 import org.junit.Test;
 
-import com.github.xiaofan1519.verify.core.Verify;
-import com.github.xiaofan1519.verify.utils.UnitTestUtil;
+import com.github.xiaofan1519.validator.core.Validator;
+import com.github.xiaofan1519.validator.utils.UnitTestUtil;
 
 /**
  * 公用方法单元测试
@@ -19,15 +19,15 @@ public class StaticFunctionTest {
 	public void verifyNull()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.isNull(null);
+			Validator.isNull(null);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isNull(1);
+			Validator.isNull(1);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isNull("");
+			Validator.isNull("");
 		}, false);
 	}
 
@@ -35,11 +35,11 @@ public class StaticFunctionTest {
 	public void verifyEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.isEmpty("");
+			Validator.isEmpty("");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isEmpty("1");
+			Validator.isEmpty("1");
 		}, false);
 	}
 	
@@ -47,19 +47,19 @@ public class StaticFunctionTest {
 	public void verifyLength()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyLen("", 1, 2);
+			Validator.verifyLen("", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLen("123", 1, 2);
+			Validator.verifyLen("123", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLen("1", 1, 2);
+			Validator.verifyLen("1", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLen("12", 1, 2);
+			Validator.verifyLen("12", 1, 2);
 		}, false);
 	}
 	
@@ -67,23 +67,23 @@ public class StaticFunctionTest {
 	public void verifyLenAllowEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowEmpty("", 1, 2);
+			Validator.verifyLenAllowEmpty("", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowEmpty("123", 1, 2);
+			Validator.verifyLenAllowEmpty("123", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowEmpty("1", 1, 2);
+			Validator.verifyLenAllowEmpty("1", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowEmpty("12", 1, 2);
+			Validator.verifyLenAllowEmpty("12", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyLenAllowEmpty(null, 1, 2);
+			Validator.verifyLenAllowEmpty(null, 1, 2);
 		}, false);
 	}
 	
@@ -91,11 +91,11 @@ public class StaticFunctionTest {
 	public void verifyEnum()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnum("1", "2", "3");
+			Validator.verifyEnum("1", "2", "3");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnum("2", "2", "3");
+			Validator.verifyEnum("2", "2", "3");
 		}, false);
 	}
 	
@@ -103,15 +103,15 @@ public class StaticFunctionTest {
 	public void verifyEnumAllowEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowEmpty("1", "2", "3");
+			Validator.verifyEnumAllowEmpty("1", "2", "3");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowEmpty("2", "2", "3");
+			Validator.verifyEnumAllowEmpty("2", "2", "3");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEnumAllowEmpty(null, "2", "3");
+			Validator.verifyEnumAllowEmpty(null, "2", "3");
 		}, false);
 	}
 	
@@ -119,35 +119,35 @@ public class StaticFunctionTest {
 	public void verifyEmail()
 	{
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmailAllowEmpty(null);
+			Validator.verifyEmailAllowEmpty(null);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmailAllowEmpty("");
+			Validator.verifyEmailAllowEmpty("");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmail("1");
+			Validator.verifyEmail("1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmail("xiaofan.com");
+			Validator.verifyEmail("xiaofan.com");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmail("@xiaofan.com");
+			Validator.verifyEmail("@xiaofan.com");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmail("xiaofan@.com");
+			Validator.verifyEmail("xiaofan@.com");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmail("xiaofanms@outlook.com");
+			Validator.verifyEmail("xiaofanms@outlook.com");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyEmail("123@qq.com");
+			Validator.verifyEmail("123@qq.com");
 		}, false);
 	}
 	
@@ -155,126 +155,126 @@ public class StaticFunctionTest {
 	public void isNum() {
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum(null);
+			Validator.verifyNum(null);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("");
+			Validator.verifyNum("");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("a");
+			Validator.verifyNum("a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("1");
+			Validator.verifyNum("1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("-1");
+			Validator.verifyNum("-1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("1a");
+			Validator.verifyNum("1a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("0x1");
+			Validator.verifyNum("0x1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("0x1E");
+			Validator.verifyNum("0x1E");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("-0x1E");
+			Validator.verifyNum("-0x1E");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("1E1");
+			Validator.verifyNum("1E1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("-1E1");
+			Validator.verifyNum("-1E1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("0.a");
+			Validator.verifyNum("0.a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNum("1.12");
+			Validator.verifyNum("1.12");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNumAllowEmpty(null);
+			Validator.verifyNumAllowEmpty(null);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.verifyNumAllowEmpty("");
+			Validator.verifyNumAllowEmpty("");
 		}, false);
 	}
 	
 	@Test
 	public void isDigits() {
 		UnitTestUtil.test(() -> {
-			Verify.isDigits(null);
+			Validator.isDigits(null);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("");
+			Validator.isDigits("");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("a");
+			Validator.isDigits("a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("1");
+			Validator.isDigits("1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("-1");
+			Validator.isDigits("-1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("1a");
+			Validator.isDigits("1a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("0x1");
+			Validator.isDigits("0x1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("0x1E");
+			Validator.isDigits("0x1E");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("-0x1E");
+			Validator.isDigits("-0x1E");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("1E1");
+			Validator.isDigits("1E1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("-1E1");
+			Validator.isDigits("-1E1");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("0.a");
+			Validator.isDigits("0.a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigits("1.12");
+			Validator.isDigits("1.12");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigitsAllowEmpty(null);
+			Validator.isDigitsAllowEmpty(null);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Verify.isDigitsAllowEmpty("");
+			Validator.isDigitsAllowEmpty("");
 		}, false);
 	}
 }

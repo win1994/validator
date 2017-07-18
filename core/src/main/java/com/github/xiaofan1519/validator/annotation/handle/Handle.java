@@ -1,4 +1,4 @@
-package com.github.xiaofan1519.verify.annotation.handle;
+package com.github.xiaofan1519.validator.annotation.handle;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -6,8 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.github.xiaofan1519.verify.handle.VerifyHandle;
-import com.github.xiaofan1519.verify.handle.impl.DefaultVerifyHandle;
+import com.github.xiaofan1519.validator.handle.ValidatorHandle;
+import com.github.xiaofan1519.validator.handle.impl.DefaultHandle;
 
 /**
  * 注解的注解，指定对应注解的handle
@@ -26,5 +26,5 @@ public @interface Handle
      * 
      * @return 返回被注解的handle
      */
-    Class<? extends VerifyHandle> value() default DefaultVerifyHandle.class;
+    Class<? extends ValidatorHandle> value() default DefaultHandle.class;
 }

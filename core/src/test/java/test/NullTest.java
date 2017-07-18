@@ -2,8 +2,8 @@ package test;
 
 import org.junit.Test;
 
-import com.github.xiaofan1519.verify.core.Verify;
-import com.github.xiaofan1519.verify.utils.UnitTestUtil;
+import com.github.xiaofan1519.validator.core.Validator;
+import com.github.xiaofan1519.validator.utils.UnitTestUtil;
 
 import test.bean.NullBean;
 
@@ -22,7 +22,7 @@ public class NullTest
         bean.setTest("123");
         
         UnitTestUtil.test(() -> {
-            Verify.verify(bean);
+            Validator.verify(bean);
         }, true);
         
     }
