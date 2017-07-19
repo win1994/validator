@@ -336,15 +336,31 @@ public abstract class Validator
      * @param field 要校验的字段
      * @param min 最小长度
      * @param max 最大长度
+     * @param msg 自定义错误提示信息
      */
-    public static void verifyLen(CharSequence field, int min, int max)
+    public static void inRange(CharSequence field, int min, int max, String msg)
     {
     	isNull(field);
     	int length = field.length();
     	if (length < min || length > max)
     	{
-    		throw new ValidatorException("值 " + field + " 长度不合法.最小:" + min + "最大:" + max);
+    		if (empty(msg)) {
+    			throw new ValidatorException("字段值超出范围");    			
+    		}
+    		throw new ValidatorException(msg);
     	}
+    }
+    
+    /**
+     * 当 field 的长度不在指定范围内，抛出异常
+     * 
+     * @param field 要校验的字段
+     * @param min 最小长度
+     * @param max 最大长度
+     */
+    public static void inRange(CharSequence field, int min, int max)
+    {
+    	inRange(field, min, max, null);
     }
     
     /**
@@ -361,7 +377,7 @@ public abstract class Validator
     		return ;
     	}
     	
-    	verifyLen(field, min, max);
+    	inRange(field, min, max);
     }
     
     /**
