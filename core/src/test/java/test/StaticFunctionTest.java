@@ -47,19 +47,19 @@ public class StaticFunctionTest {
 	public void verifyLength()
 	{
 		UnitTestUtil.test(() -> {
-			Validator.verifyLen("", 1, 2);
+			Validator.inRange("", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyLen("123", 1, 2);
+			Validator.inRange("123", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyLen("1", 1, 2);
+			Validator.inRange("1", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyLen("12", 1, 2);
+			Validator.inRange("12", 1, 2);
 		}, false);
 	}
 	
