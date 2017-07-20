@@ -67,23 +67,23 @@ public class StaticFunctionTest {
 	public void verifyLenAllowEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Validator.verifyLenAllowEmpty("", 1, 2);
+			Validator.inRangeAllowEmpty("", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyLenAllowEmpty("123", 1, 2);
+			Validator.inRangeAllowEmpty("123", 1, 2);
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyLenAllowEmpty("1", 1, 2);
+			Validator.inRangeAllowEmpty("1", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyLenAllowEmpty("12", 1, 2);
+			Validator.inRangeAllowEmpty("12", 1, 2);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyLenAllowEmpty(null, 1, 2);
+			Validator.inRangeAllowEmpty(null, 1, 2);
 		}, false);
 	}
 	
@@ -91,11 +91,11 @@ public class StaticFunctionTest {
 	public void verifyEnum()
 	{
 		UnitTestUtil.test(() -> {
-			Validator.verifyEnum("1", "2", "3");
+			Validator.inEnums("1", "提示信息", "2", "3");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyEnum("2", "2", "3");
+			Validator.inEnums("2", "提示信息", "2", "3");
 		}, false);
 	}
 	
@@ -103,15 +103,15 @@ public class StaticFunctionTest {
 	public void verifyEnumAllowEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Validator.verifyEnumAllowEmpty("1", "2", "3");
+			Validator.inEnumsAllowEmpty("1", "提示信息", "2", "3");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyEnumAllowEmpty("2", "2", "3");
+			Validator.inEnumsAllowEmpty("2", "提示信息", "2", "3");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyEnumAllowEmpty(null, "2", "3");
+			Validator.inEnumsAllowEmpty(null, "提示信息", "2", "3");
 		}, false);
 	}
 	
