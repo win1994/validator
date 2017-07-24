@@ -306,10 +306,10 @@ public abstract class Validator
      * 
      * @param field 被校验的字段
      */
-    public static void isEmpty(CharSequence field)
+    public static void notEmpty(CharSequence field)
     {
     	isNull(field);
-    	isEmpty(field, null);
+    	notEmpty(field, null);
     }
     
     /**
@@ -318,7 +318,7 @@ public abstract class Validator
      * @param field 被校验的字段
      * @param msg 自定义错误提示信息
      */
-    public static void isEmpty(CharSequence field, String msg)
+    public static void notEmpty(CharSequence field, String msg)
     {
     	isNull(field);
     	if (field.length() == 0)
@@ -333,14 +333,17 @@ public abstract class Validator
     /**
      * 当 field 的长度不在指定范围内，抛出异常
      * 
-     * @param field 要校验的字段
+     * @param field 被校验的字段, 允许为空
      * @param min 最小长度
      * @param max 最大长度
      * @param msg 自定义错误提示信息
      */
     public static void inRange(CharSequence field, int min, int max, String msg)
     {
-    	isNull(field);
+    	if (empty(field)) {
+    		return ;
+    	}
+    	
     	int length = field.length();
     	if (length < min || length > max)
     	{
@@ -354,7 +357,7 @@ public abstract class Validator
     /**
      * 当 field 的长度不在指定范围内，抛出异常
      * 
-     * @param field 要校验的字段
+     * @param field 被校验的字段, 允许为空
      * @param min 最小长度
      * @param max 最大长度
      */
@@ -364,46 +367,18 @@ public abstract class Validator
     }
     
     /**
-     * 当 field 的长度不在指定范围内，抛出异常
-     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
-     * 
-     * @param field 要校验的字段
-     * @param min 最小长度
-     * @param max 最大长度
-     * @param msg 自定义错误提示信息
-     */
-    public static void inRangeAllowEmpty(CharSequence field, int min, int max, String msg)
-    {
-    	if (empty(field)) {
-    		return ;
-    	}
-    	
-    	inRange(field, min, max, msg);
-    }
-    
-    /**
-     * 当 field 的长度不在指定范围内，抛出异常
-     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
-     * 
-     * @param field 要校验的字段
-     * @param min 最小长度
-     * @param max 最大长度
-     */
-    public static void inRangeAllowEmpty(CharSequence field, int min, int max)
-    {
-    	inRangeAllowEmpty(field, min, max, null);
-    }
-    
-    /**
      * 当 field 不等于任何一个枚举值，抛出异常
      * 
-     * @param field 要校验的字段
+     * @param field 被校验的字段, 允许为空
      * @param msg 自定义错误提示信息
      * @param enums 枚举值
      */
     public static void inEnums(CharSequence field, String msg, CharSequence... enums)
     {
-    	isNull(field);
+    	if (empty(field)) {
+    		return ;
+    	}
+    	
     	for (CharSequence charSequence : enums) {
 			if (field.equals(charSequence))
 			{
@@ -411,22 +386,6 @@ public abstract class Validator
 			}
 		}
     	throw new ValidatorException(msg);
-    }
-    
-    /**
-     * 当 field 不等于任何一个枚举值，抛出异常
-     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
-     * 
-     * @param field 要校验的字段
-     * @param enums 枚举值
-     */
-    public static void inEnumsAllowEmpty(CharSequence field, String msg, CharSequence... enums)
-    {
-    	if (empty(field)) {
-    		return ;
-    	}
-    	
-    	inEnums(field, msg, enums);
     }
     
     /**
@@ -481,42 +440,41 @@ public abstract class Validator
     
     /**
      * 校验是否是合法的数字（负数，小数）
-     * @param field
+     * 
+     * @param field 被校验的字段, 允许为空
      */
-    public static void verifyNum(CharSequence field)
+    public static void isNum(CharSequence field)
     {
-    	isNull(field);
-    	
-    	try {
-    		new BigDecimal(field.toString());
-    	}
-    	catch (NumberFormatException e) {
-    		throw new ValidatorException("数字非法");
-		}
+    	isNum(field, null);
     }
     
     /**
-     * 校验是否是合法的数字（负数，小数，科学计数）
-     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
-     * @param field
+     * 校验是否是合法的数字（负数，小数）
+     * 
+     * @param field 被校验的字段, 允许为空
+     * @param msg 自定义错误提示信息
      */
-    public static void verifyNumAllowEmpty(CharSequence field)
+    public static void isNum(CharSequence field, String msg)
     {
     	if (empty(field)) {
     		return ;
     	}
     	
     	try {
-    		Integer.valueOf(field.toString());
+    		new BigDecimal(field.toString());
     	}
     	catch (NumberFormatException e) {
-    		throw new ValidatorException("数字非法");
+    		if (null == msg) {
+    			msg = "非法数字";
+    		}
+    		throw new ValidatorException(msg);
 		}
     }
     
     /**
      * 校验是否是整数
-     * @param field
+     * 
+     * @param field 被校验的字段, 允许为空
      */
     public static void isDigits(CharSequence field)
     {
@@ -525,12 +483,15 @@ public abstract class Validator
     
     /**
      * 校验是否是整数
-     * @param field
+     * 
+     * @param field 被校验的字段, 允许为空
      * @param msg 自定义错误提示信息
      */
     public static void isDigits(CharSequence field, String msg)
     {
-    	isEmpty(field);
+    	if (empty(field)) {
+    		return ;
+    	}
     	
     	for (int i = 0; i < field.length(); i++) {
 			if (!Character.isDigit(field.charAt(i))) {
@@ -541,20 +502,5 @@ public abstract class Validator
 				throw new ValidatorException(msg);
 			}
 		}
-    }
-    
-    /**
-     * 校验是否是整数
-     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
-     * @param field
-     */
-    public static void isDigitsAllowEmpty(CharSequence field)
-    {
-    	if (empty(field))
-    	{
-    		return ;
-    	}
-    	
-    	isDigits(field);
     }
 }

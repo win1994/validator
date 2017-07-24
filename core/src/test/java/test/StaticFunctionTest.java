@@ -16,7 +16,7 @@ import com.github.xiaofan1519.validator.utils.UnitTestUtil;
 public class StaticFunctionTest {
 
 	@Test
-	public void verifyNull()
+	public void isNull()
 	{
 		UnitTestUtil.test(() -> {
 			Validator.isNull(null);
@@ -32,23 +32,27 @@ public class StaticFunctionTest {
 	}
 
 	@Test
-	public void verifyEmpty()
+	public void notEmpty()
 	{
 		UnitTestUtil.test(() -> {
-			Validator.isEmpty("");
+			Validator.notEmpty("");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.isEmpty("1");
+			Validator.notEmpty("1");
 		}, false);
 	}
 	
 	@Test
-	public void verifyLength()
+	public void inRange()
 	{
 		UnitTestUtil.test(() -> {
+			Validator.inRange(null, 1, 2);
+		}, false);
+		
+		UnitTestUtil.test(() -> {
 			Validator.inRange("", 1, 2);
-		}, true);
+		}, false);
 		
 		UnitTestUtil.test(() -> {
 			Validator.inRange("123", 1, 2);
@@ -64,30 +68,6 @@ public class StaticFunctionTest {
 	}
 	
 	@Test
-	public void verifyLenAllowEmpty()
-	{
-		UnitTestUtil.test(() -> {
-			Validator.inRangeAllowEmpty("", 1, 2);
-		}, false);
-		
-		UnitTestUtil.test(() -> {
-			Validator.inRangeAllowEmpty("123", 1, 2);
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.inRangeAllowEmpty("1", 1, 2);
-		}, false);
-		
-		UnitTestUtil.test(() -> {
-			Validator.inRangeAllowEmpty("12", 1, 2);
-		}, false);
-		
-		UnitTestUtil.test(() -> {
-			Validator.inRangeAllowEmpty(null, 1, 2);
-		}, false);
-	}
-	
-	@Test
 	public void verifyEnum()
 	{
 		UnitTestUtil.test(() -> {
@@ -96,22 +76,6 @@ public class StaticFunctionTest {
 		
 		UnitTestUtil.test(() -> {
 			Validator.inEnums("2", "提示信息", "2", "3");
-		}, false);
-	}
-	
-	@Test
-	public void verifyEnumAllowEmpty()
-	{
-		UnitTestUtil.test(() -> {
-			Validator.inEnumsAllowEmpty("1", "提示信息", "2", "3");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.inEnumsAllowEmpty("2", "提示信息", "2", "3");
-		}, false);
-		
-		UnitTestUtil.test(() -> {
-			Validator.inEnumsAllowEmpty(null, "提示信息", "2", "3");
 		}, false);
 	}
 	
@@ -155,63 +119,55 @@ public class StaticFunctionTest {
 	public void isNum() {
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNum(null);
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyNum("");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyNum("a");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyNum("1");
+			Validator.isNum(null);
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNum("-1");
+			Validator.isNum("");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNum("1a");
+			Validator.isNum("a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNum("0x1");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyNum("0x1E");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyNum("-0x1E");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyNum("1E1");
+			Validator.isNum("1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNum("-1E1");
+			Validator.isNum("-1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNum("0.a");
+			Validator.isNum("1a");
 		}, true);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNum("1.12");
+			Validator.isNum("0x1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isNum("0x1E");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isNum("-0x1E");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isNum("1E1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNumAllowEmpty(null);
+			Validator.isNum("-1E1");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyNumAllowEmpty("");
+			Validator.isNum("0.a");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isNum("1.12");
 		}, false);
 	}
 	
@@ -219,11 +175,11 @@ public class StaticFunctionTest {
 	public void isDigits() {
 		UnitTestUtil.test(() -> {
 			Validator.isDigits(null);
-		}, true);
+		}, false);
 		
 		UnitTestUtil.test(() -> {
 			Validator.isDigits("");
-		}, true);
+		}, false);
 		
 		UnitTestUtil.test(() -> {
 			Validator.isDigits("a");
@@ -268,13 +224,5 @@ public class StaticFunctionTest {
 		UnitTestUtil.test(() -> {
 			Validator.isDigits("1.12");
 		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.isDigitsAllowEmpty(null);
-		}, false);
-		
-		UnitTestUtil.test(() -> {
-			Validator.isDigitsAllowEmpty("");
-		}, false);
 	}
 }
