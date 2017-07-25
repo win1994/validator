@@ -18,13 +18,12 @@ import com.github.xiaofan1519.validator.handle.impl.DefaultHandle;
 @Target(value = { ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Handle
-{
+public @interface Handle {
 
-    /**
-     * 指定注解使用该handle处理，必须实现 ValidatorHandle 接口
-     * 
-     * @return 返回被注解的handle
-     */
-    Class<? extends ValidatorHandle> value() default DefaultHandle.class;
+	/**
+	 * 指定注解使用该handle处理，必须实现 ValidatorHandle 接口
+	 * 
+	 * @return 返回被注解的handle
+	 */
+	Class<? extends ValidatorHandle> value() default DefaultHandle.class;
 }

@@ -25,7 +25,6 @@ import com.github.xiaofan1519.validator.handle.impl.NullHandle;
 @Retention(RUNTIME)
 @Documented
 @Handle(NullHandle.class)
-public @interface Null
-{
+public @interface Null {
 	String name() default "必须为Null";
 }

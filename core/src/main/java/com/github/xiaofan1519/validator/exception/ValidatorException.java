@@ -9,124 +9,113 @@ import java.util.Map.Entry;
  * @author XiaoFan
  *
  */
-public class ValidatorException extends RuntimeException
-{
+public class ValidatorException extends RuntimeException {
 
-    private static final long   serialVersionUID = -7521481307777742644L;
+	private static final long serialVersionUID = -7521481307777742644L;
 
-    /**
-     * 错误集合
-     */
-    private Map<String, String> error;
+	/**
+	 * 错误集合
+	 */
+	private Map<String, String> error;
 
-    /**
-     * 字段值
-     */
-    private String field;
-    
-    public ValidatorException()
-    {
-        super();
-    }
+	/**
+	 * 字段值
+	 */
+	private String field;
 
-    public ValidatorException(String message)
-    {
-        super(message);
-    }
+	public ValidatorException() {
+		super();
+	}
 
-    public ValidatorException(String field, String message) {
-    	super(message);
-    	this.field = field;
-    }
-    
-    public ValidatorException(String message, Throwable cause)
-    {
-        super(message, cause);
-    }
+	public ValidatorException(String message) {
+		super(message);
+	}
 
-    public ValidatorException(Throwable cause)
-    {
-        super(cause);
-    }
+	public ValidatorException(String field, String message) {
+		super(message);
+		this.field = field;
+	}
 
-    /**
-     * @param cause 被捕获的异常
-     * @param error 存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
-     */
-    public ValidatorException(Throwable cause, Map<String, String> error)
-    {
-        super(cause);
-        this.error = error;
-    }
-    
-    /**
-     * 
-     * @param error 存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
-     */
-    public ValidatorException(Map<String, String> error)
-    {
-        this(null, error);
-    }
+	public ValidatorException(String message, Throwable cause) {
+		super(message, cause);
+	}
 
-    public Map<String, String> getError()
-    {
-        return error;
-    }
+	public ValidatorException(Throwable cause) {
+		super(cause);
+	}
 
-    public void setError(Map<String, String> error)
-    {
-        this.error = error;
-    }
+	/**
+	 * @param cause
+	 *            被捕获的异常
+	 * @param error
+	 *            存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
+	 */
+	public ValidatorException(Throwable cause, Map<String, String> error) {
+		super(cause);
+		this.error = error;
+	}
 
-    /**
-     * 将Map转换成String
-     * 
-     * @return 将错误信息以字符串的形式返回
-     */
-    public String getErrorStr()
-    {
-        return mapToStr(error);
-    }
+	/**
+	 * 
+	 * @param error
+	 *            存放不符合校验规则的字段信息 key = 不符合校验规则的字段名 value = 不符合校验规则的描述信息
+	 */
+	public ValidatorException(Map<String, String> error) {
+		this(null, error);
+	}
 
-    @Override
-    public String toString()
-    {
-        StringBuffer buff = new StringBuffer();
-        if (null != field) {
-        	buff.append(this.getMessage());
-            buff.append(":");	
-        }
-        
-        buff.append(this.getMessage());
+	public Map<String, String> getError() {
+		return error;
+	}
 
-        if (null != error)
-        {
-            buff.append("    ");
-            buff.append("Cause: " + getErrorStr());
-        }
+	public void setError(Map<String, String> error) {
+		this.error = error;
+	}
 
-        return buff.toString();
-    }
+	/**
+	 * 将Map转换成String
+	 * 
+	 * @return 将错误信息以字符串的形式返回
+	 */
+	public String getErrorStr() {
+		return mapToStr(error);
+	}
 
-    /**
-     * 将 map转换成str
-     * 
-     * @param map
-     * @return
-     */
-    private String mapToStr(Map<String, String> map)
-    {
-        StringBuffer buff = new StringBuffer();
+	@Override
+	public String toString() {
+		StringBuffer buff = new StringBuffer();
+		if (null != field) {
+			buff.append(this.getMessage());
+			buff.append(":");
+		}
 
-        for (Entry<String, String> entry : map.entrySet())
-        {
-            buff.append("[ ");
-            buff.append(entry.getKey() + " : ");
-            buff.append(entry.getValue());
-            buff.append(" ]");
-        }
+		buff.append(this.getMessage());
 
-        return buff.toString();
-    }
+		if (null != error) {
+			buff.append("    ");
+			buff.append("Cause: " + getErrorStr());
+		}
+
+		return buff.toString();
+	}
+
+	/**
+	 * 将 map转换成str
+	 * 
+	 * @param map
+	 * @return
+	 */
+	private String mapToStr(Map<String, String> map) {
+		StringBuffer buff = new StringBuffer();
+
+		for (Entry<String, String> entry : map.entrySet()) {
+			buff.append("[ ");
+			buff.append(entry.getKey() + " : ");
+			buff.append(entry.getValue());
+			buff.append(" ]");
+		}
+
+		return buff.toString();
+	}
 
 }

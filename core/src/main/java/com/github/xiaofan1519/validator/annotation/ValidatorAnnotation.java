@@ -19,7 +19,6 @@ import com.github.xiaofan1519.validator.handle.impl.DefaultHandle;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Handle(DefaultHandle.class)
-public @interface ValidatorAnnotation
-{
+public @interface ValidatorAnnotation {
 	String name() default "没有指定Handle";
 }

@@ -12,27 +12,25 @@ import test.annotation.TestAnnotation;
  */
 public class TestVerifyHandle implements ValidatorHandle {
 
-    private Annotation annotation;
+	private Annotation annotation;
 
-    @Override
-    public void initialize(Annotation annotation)
-    {
-        this.annotation = annotation;
-    }
+	@Override
+	public void initialize(Annotation annotation) {
+		this.annotation = annotation;
+	}
 
-    @Override
-    public boolean handle(Object value) {
-        
-        Class<?> clazz = annotation.annotationType();
-        
-        if (TestAnnotation.class == clazz)
-        {
-            TestAnnotation test = (TestAnnotation) annotation;
-            System.out.println(test.name());
-            return false;
-        }
-        
-        return false;
-    }
+	@Override
+	public boolean handle(Object value) {
+
+		Class<?> clazz = annotation.annotationType();
+
+		if (TestAnnotation.class == clazz) {
+			TestAnnotation test = (TestAnnotation) annotation;
+			System.out.println(test.name());
+			return false;
+		}
+
+		return false;
+	}
 
 }

@@ -7,9 +7,9 @@ import test.annotation.TestAnnotation;
  *
  */
 public class TestBean1 {
-    
-    @TestAnnotation
-    private String name;
+
+	@TestAnnotation
+	private String name;
 
 	/**
 	 * @return the name
@@ -17,12 +17,12 @@ public class TestBean1 {
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
-	 * @param name the name to set
+	 * @param name
+	 *            the name to set
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 }
-

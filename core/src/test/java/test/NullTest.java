@@ -13,17 +13,15 @@ import test.bean.NullBean;
  *         2017年4月29日
  * 
  */
-public class NullTest
-{
-    @Test
-    public void notNull()
-    {
-        NullBean bean = new NullBean();
-        bean.setTest("123");
-        
-        UnitTestUtil.test(() -> {
-            Validator.verify(bean);
-        }, true);
-        
-    }
+public class NullTest {
+	@Test
+	public void notNull() {
+		NullBean bean = new NullBean();
+		bean.setTest("123");
+
+		UnitTestUtil.test(() -> {
+			Validator.verify(bean);
+		}, true);
+
+	}
 }
