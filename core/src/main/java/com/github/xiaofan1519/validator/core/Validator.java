@@ -83,6 +83,7 @@ public abstract class Validator {
 			}
 
 			// TODO 这里会造成 stackoverflow，暂时不校验类中类
+			// TODO 目前更改为只校验有公共方法的字段，可考虑放开
 			/*
 			 * // 根据类型选择对应的校验方式 if (value instanceof Map<?, ?>) {
 			 * verifyMap((Map<?, ?>) value, error); } else if (value instanceof
