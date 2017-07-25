@@ -68,7 +68,7 @@ public class StaticFunctionTest {
 	}
 	
 	@Test
-	public void verifyEnum()
+	public void isEnum()
 	{
 		UnitTestUtil.test(() -> {
 			Validator.inEnums("1", "提示信息", "2", "3");
@@ -80,38 +80,30 @@ public class StaticFunctionTest {
 	}
 	
 	@Test
-	public void verifyEmail()
+	public void isEmail()
 	{
 		UnitTestUtil.test(() -> {
-			Validator.verifyEmailAllowEmpty(null);
+			Validator.isEmail("1");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isEmail("xiaofan.com");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isEmail("@xiaofan.com");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isEmail("xiaofan@.com");
+		}, true);
+		
+		UnitTestUtil.test(() -> {
+			Validator.isEmail("xiaofanms@outlook.com");
 		}, false);
 		
 		UnitTestUtil.test(() -> {
-			Validator.verifyEmailAllowEmpty("");
-		}, false);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyEmail("1");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyEmail("xiaofan.com");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyEmail("@xiaofan.com");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyEmail("xiaofan@.com");
-		}, true);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyEmail("xiaofanms@outlook.com");
-		}, false);
-		
-		UnitTestUtil.test(() -> {
-			Validator.verifyEmail("123@qq.com");
+			Validator.isEmail("123@qq.com");
 		}, false);
 	}
 	

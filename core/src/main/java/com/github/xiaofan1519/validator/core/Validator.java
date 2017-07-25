@@ -281,7 +281,7 @@ public abstract class Validator
     	
     	if (null == msg) 
     	{
-    		throw new ValidatorException("字段不能为空");
+    		msg = "不能为null";
     	}
     	
     	throw new ValidatorException(msg);
@@ -324,7 +324,7 @@ public abstract class Validator
     	if (field.length() == 0)
     	{
     		if (null == msg) {    			
-    			throw new ValidatorException("字段不能为空");
+    			throw new ValidatorException("不能为空");
     		}
     		throw new ValidatorException(msg);
     	}
@@ -348,7 +348,7 @@ public abstract class Validator
     	if (length < min || length > max)
     	{
     		if (empty(msg)) {
-    			throw new ValidatorException("字段值超出范围");    			
+    			msg = "长度需要在" + min + "和" + max + "之间";    			
     		}
     		throw new ValidatorException(msg);
     	}
@@ -392,8 +392,9 @@ public abstract class Validator
      * 校验正则表达式
      * @param field 要校验的字段
      * @param regEx 正则表达式
+     * @param msg 自定义错误提示信息
      */
-    public static void verifyRegEx(CharSequence field, String regEx)
+    public static void matchRegEx(CharSequence field, String regEx, String msg)
     {
     	Matcher matcher = null;
     	try
@@ -403,12 +404,12 @@ public abstract class Validator
     	}
     	catch (RuntimeException e)
     	{
-    		throw new ValidatorException(e);
+    		throw new ValidatorException(msg, e);
     	}
         
         if (!matcher.matches())
         {
-        	throw new ValidatorException("正则表达式不匹配");
+        	throw new ValidatorException(msg);
         }
     }
     
@@ -416,26 +417,29 @@ public abstract class Validator
      * 校验邮箱格式
      * @param field 要校验的字段
      */
-    public static void verifyEmail(CharSequence field)
+    public static void isEmail(CharSequence field)
     {
-    	isNull(field);
-    	
-    	String regEx = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
-    	verifyRegEx(field, regEx);
+    	isEmail(field, null);
     }
     
     /**
      * 校验邮箱格式
-     * 该方法允许字段值为null 或 空字符串，适用于非必填字段校验
      * @param field 要校验的字段
+     * @param msg 自定义错误提示信息
      */
-    public static void verifyEmailAllowEmpty(CharSequence field)
+    public static void isEmail(CharSequence field, String msg)
     {
-    	if (empty(field)) {
+    	if(empty(field)) {
     		return ;
     	}
     	
-    	verifyEmail(field);
+    	String regEx = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+    	
+    	if (empty(msg)) {
+    		msg = "不是一个合法的电子邮件地址"; 
+    	}
+    	
+    	matchRegEx(field, regEx, msg);
     }
     
     /**
@@ -464,7 +468,7 @@ public abstract class Validator
     		new BigDecimal(field.toString());
     	}
     	catch (NumberFormatException e) {
-    		if (null == msg) {
+    		if (empty(msg)) {
     			msg = "非法数字";
     		}
     		throw new ValidatorException(msg);
@@ -495,8 +499,8 @@ public abstract class Validator
     	
     	for (int i = 0; i < field.length(); i++) {
 			if (!Character.isDigit(field.charAt(i))) {
-				if (null == msg) {
-					throw new ValidatorException("字段值不是一个有效的整数");					
+				if (empty(msg)) {
+					msg = "字段值不是一个有效的整数";					
 				}
 				
 				throw new ValidatorException(msg);
