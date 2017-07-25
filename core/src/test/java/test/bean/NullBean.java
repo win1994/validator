@@ -20,4 +20,9 @@ public class NullBean {
     {
         this.test = test;
     }
+    
+    public String getTest()
+    {
+    	return test;
+    }
 }

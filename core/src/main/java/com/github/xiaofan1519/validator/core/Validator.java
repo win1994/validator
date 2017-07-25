@@ -3,7 +3,9 @@ package com.github.xiaofan1519.validator.core;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -67,7 +69,12 @@ public abstract class Validator
             Object value = null;
             try
             {
-                value = getFieldValue(bean, field, error);
+            	Method method = getPublicMethodByField(bean, field.getName());
+            	if (null == method)
+            	{
+            		continue;
+            	}
+                value = getFieldValue(bean, method);
             }
             catch (ValidatorException e)
             {
@@ -80,12 +87,12 @@ public abstract class Validator
             {
                 verifyHandle(annotation, field.getName(), value, error);
             }
-
-            /*// 字段内容为null
+            
+            // 字段内容为null
             if (value == bean)
             {
                 continue;
-            }*/
+            }
             
             // TODO 这里会造成 stackoverflow，暂时不校验类中类
             /*// 根据类型选择对应的校验方式
@@ -142,34 +149,75 @@ public abstract class Validator
     }*/
 
     /**
+     * 根据字段名称获取它的Get公共方法
+     * @param bean
+     * @param fieldName
+     * @return
+     */
+    private static Method getPublicMethodByField(Object bean, String fieldName)
+    {
+    	Method method = null;
+    	Class<?> clazz = bean.getClass();
+    	
+    	// 获取首字母
+    	char initial = fieldName.charAt(0);
+    	StringBuffer methodName = new StringBuffer();
+    	methodName.append("get");
+    	
+    	// 如果是字母且是小写，则转换为大写
+    	if (initial >= 97 && initial <= 122) 
+    	{
+    		initial -= 32;
+    		methodName.append(initial + fieldName.substring(1));
+    	}
+    	else 
+    	{
+    		methodName.append(fieldName);
+    	}
+    	
+    	try 
+    	{
+    		method = clazz.getMethod(methodName.toString(), new Class<?>[0]);
+		} 
+    	catch (NoSuchMethodException | SecurityException e) {
+    		LOGGER.debug("字段{}没有对应的{}公共方法", fieldName, methodName.toString(), e);
+    		return null;
+		}
+    	
+    	// 判断是否是公共方法
+    	int modifiers = method.getModifiers();
+    	// 防止自己忘记，不使用方法Modifier.isPublic
+    	if ((modifiers & Modifier.PUBLIC) != Modifier.PUBLIC) 
+    	{
+    		LOGGER.debug("{}不是一个公共方法, modifiers:{}", modifiers);
+    		return null;
+    	}
+    	
+    	return method;
+    }
+    
+    /**
      * 获取字段中的值
      * 
+     * @param bean
      * @param field
      */
-    private static Object getFieldValue(Object bean, Field field, Map<String, String> error)
+    private static Object getFieldValue(Object bean, Method method)
     {
         Object value = null;
         
-        try
+        try 
         {
-            // 禁用安全检查
-            field.setAccessible(true);
-            value = field.get(bean);
-        }
-        catch (IllegalAccessException e)
-        {
-            LOGGER.error("无法获取到该字段的值", e);
-            throw new ValidatorException("无法获取到该字段的值", e);
-        }
-        finally
-        {
-            // 还原
-            field.setAccessible(false);
-        } 
-
-        return value;
+        	// 要求没有参数的Get方法
+			value = method.invoke(bean, new Object[0]);
+			return value;
+		} 
+        catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			LOGGER.debug("调用方法失败, 方法名:{}", method.getName(), e);
+			throw new ValidatorException(e);
+		}
     }
-
+    
     /**
      * 调用对应的handle来进行校验
      * 
