@@ -3,8 +3,7 @@
  */
 package com.github.xiaofan1519.validator.handle.impl;
 
-import java.lang.annotation.Annotation;
-
+import com.github.xiaofan1519.validator.bean.FieldMetaData;
 import com.github.xiaofan1519.validator.handle.ValidatorHandle;
 
 /**
@@ -14,14 +13,10 @@ import com.github.xiaofan1519.validator.handle.ValidatorHandle;
  *
  */
 public class NullHandle implements ValidatorHandle {
-
+    
 	@Override
-	public void initialize(Annotation annotation) {
-
-	}
-
-	@Override
-	public boolean handle(Object value) {
+	public boolean handle(FieldMetaData metaData) {
+	    Object value = metaData.getValue();
 		return null == value;
 	}
 

@@ -1,26 +1,18 @@
 package com.github.xiaofan1519.validator.handle;
 
-import java.lang.annotation.Annotation;
+import com.github.xiaofan1519.validator.bean.FieldMetaData;
 
 /**
  * @author XiaoFan
  *
  */
 public interface ValidatorHandle {
-	/**
-	 * 当校验前会首先执行该方法
-	 *
-	 * @param annotation
-	 *            将被处理的注解
-	 */
-	void initialize(Annotation annotation);
 
 	/**
 	 * 处理方法
 	 * 
-	 * @param value
-	 *            将被处理的值
+	 * @param metaData 字段元数据
 	 * @return 是否通过校验
 	 */
-	boolean handle(Object value);
+	boolean handle(FieldMetaData metaData);
 }

@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.xiaofan1519.validator.annotation.handle.Handle;
+import com.github.xiaofan1519.validator.bean.FieldMetaData;
 import com.github.xiaofan1519.validator.exception.ValidatorException;
 import com.github.xiaofan1519.validator.handle.ValidatorHandle;
 
@@ -32,14 +33,11 @@ public abstract class Validator {
 	 * @param bean
 	 *            要被校验的类
 	 */
-	public static final void verify(Object bean) {
-		Map<String, String> error = new LinkedHashMap<>();
+	public static final Map<String, String> verify(Object bean) {
+		Map<String, String> error = new HashMap<>();
 		verify(bean, error);
-
-		// error 不为空
-		if (error.size() != 0) {
-			throw new ValidatorException(null, error);
-		}
+		
+		return error;
 	}
 
 	/**
@@ -54,7 +52,7 @@ public abstract class Validator {
 		if (null == bean) {
 			return;
 		}
-
+		
 		Class<?> clazz = bean.getClass();
 
 		// 获取所有的字段
@@ -92,35 +90,6 @@ public abstract class Validator {
 			 */
 		}
 	}
-
-	/**
-	 * 校验集合中的字段
-	 * 
-	 * @param map
-	 * @param error
-	 */
-	/*
-	 * private static <K, V> void verifyMap(Map<K, V> map, Map<String, String>
-	 * error) { Set<K> keys = map.keySet(); Iterator<K> iter = keys.iterator();
-	 * while (iter.hasNext()) {
-	 * 
-	 * Object key = iter.next(); verify(key, error);
-	 * 
-	 * Object value = map.get(key); verify(value, error); } }
-	 */
-
-	/**
-	 * 校验集合中的字段
-	 * 
-	 * @param collection
-	 * @param error
-	 */
-	/*
-	 * private static <T> void validateCollection(Collection<T> collection,
-	 * Map<String, String> error) { Iterator<?> iter = collection.iterator();
-	 * while (iter.hasNext()) { Object value = iter.next(); verify(value,
-	 * error); } }
-	 */
 
 	/**
 	 * 根据字段名称获取它的Get公共方法
@@ -193,7 +162,7 @@ public abstract class Validator {
 	private static void verifyHandle(Annotation annotation, String fieldName, Object value, Map<String, String> error) {
 		// 注解的Class
 		Class<? extends Annotation> annotationClass = annotation.annotationType();
-
+		
 		// 获取校验器注解
 		Handle handleAnnotation = annotationClass.getDeclaredAnnotation(Handle.class);
 
@@ -202,30 +171,35 @@ public abstract class Validator {
 			return;
 		}
 
-		// 当前字段校验不通过时的提示信息
-		String errorTip = null;
-
+		// 生成字段元数据
+		FieldMetaData metaData = new FieldMetaData();
+        metaData.setName(fieldName);
+        metaData.setValue(value);
+        metaData.setConstraint(annotationClass);
+        
+        // 获取注解中的默认提示信息
 		try {
 			Method nameField = annotationClass.getMethod("name");
-			errorTip = (String) nameField.invoke(annotation);
+			metaData.setMessage((String) nameField.invoke(annotation));
 		} catch (Exception e) {
 			LOGGER.error("校验注解没有默认的 name 字段 {}", annotationClass.getSimpleName(), e);
 			throw new ValidatorException("校验注解没有默认的 name 字段", e);
 		}
-
+		
 		// 获取注解中的handle
 		ValidatorHandle validatorHandle = getValidatorHandle(handleAnnotation.value());
-
+		metaData.setHandle(validatorHandle.getClass());
+		
+		LOGGER.debug(metaData.toString());
+		
 		try {
 			// 初始化并校验
-			validatorHandle.initialize(annotation);
-			if (!validatorHandle.handle(value)) {
-				error.put(fieldName, errorTip);
+			if (!validatorHandle.handle(metaData)) {
+				error.put(metaData.getName(), metaData.getMessage());
 			}
 		} catch (Exception e) {
-			error.put(fieldName, e.getMessage());
 			LOGGER.error("Handle 抛出异常 {}", validatorHandle.getClass().getSimpleName(), e);
-			throw new ValidatorException(e, error);
+			throw new ValidatorException(e);
 		}
 	}
 
