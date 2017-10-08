@@ -1,8 +1,8 @@
-# Verify
+# Validator
 一个简单的 java 参数校验器
 
 注解|描述|是否实现
----|---
+---|---|---
 @Null|被注释的元素必须为 null|否
 @NotNull|被注释的元素必须不为 null|否
 @AssertTrue|被注释的元素必须为 true|否
